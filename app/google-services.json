@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "314249896854",
+    "firebase_url": "https://organizerdb-2a228-default-rtdb.firebaseio.com",
+    "project_id": "organizerdb-2a228",
+    "storage_bucket": "organizerdb-2a228.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314249896854:android:26c7e0bba97e9eb3da33b7",
+        "android_client_info": {
+          "package_name": "com.example.organizer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFRUaoFG75SLdXrM5a3wBdsX2WoNx4G4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314249896854:android:841e1f19a678df19da33b7",
+        "android_client_info": {
+          "package_name": "com.or.organizerp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFRUaoFG75SLdXrM5a3wBdsX2WoNx4G4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

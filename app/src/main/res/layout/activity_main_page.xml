@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#B4ABE6E8"
+    android:gravity="center"
+    tools:context=".MainPage">
+
+
+    <Button
+        android:id="@+id/btntologin"
+        android:layout_width="271dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginBottom="51dp"
+        android:background="#7BEFE6"
+        android:text="Log In"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btntoregister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgwelcome" />
+
+    <Button
+        android:id="@+id/btntoregister"
+        android:layout_width="259dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginBottom="28dp"
+        android:background="#7BEFE6"
+        android:text="register"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btntoodot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btntologin" />
+
+    <Button
+        android:id="@+id/btntoodot"
+        android:layout_width="267dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="85dp"
+        android:background="#7BEFE6"
+        android:text="about"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btntoregister"
+        app:layout_constraintTop_toBottomOf="@+id/btntoregister" />
+
+    <TextView
+        android:id="@+id/txtwelcome"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="78dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="serif"
+        android:text="Welcome to ORganizer!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imgwelcome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgwelcome"
+        android:layout_width="389dp"
+        android:layout_height="344dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/btntologin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtwelcome"
+        app:srcCompat="@drawable/logoor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
