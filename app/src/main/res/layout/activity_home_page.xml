@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B4ABE6E8"
+    android:gravity="center"
+    tools:context=".HomePage">
+
+    <!-- Welcome Text -->
+    <TextView
+        android:id="@+id/txtwelcomelogin2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="276dp"
+        android:fontFamily="serif"
+        android:text="Welcome to ORganizer!"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/imglogin2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo Image -->
+
+    <!-- Back Button -->
+
+    <!-- Spinner for Event Creation -->
+
+    <ImageView
+        android:id="@+id/imglogin2"
+        android:layout_width="172dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="224dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogOutHomePage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin2"
+        app:srcCompat="@drawable/logoor" />
+
+    <Button
+        android:id="@+id/btnBackHomePage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
+        android:layout_marginBottom="74dp"
+        android:background="#7BEFE6"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/spCreateEvent2"
+        app:layout_constraintTop_toBottomOf="@+id/spCreateEvent2" />
+
+    <!-- Log Out Button -->
+    <Spinner
+        android:id="@+id/spCreateEvent2"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackHomePage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogOutHomePage2" />
+
+    <Button
+        android:id="@+id/btnLogOutHomePage2"
+        android:layout_width="111dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="49dp"
+        android:background="#7BEEE5"
+        android:text="Log Out"
+        app:layout_constraintBottom_toTopOf="@+id/spCreateEvent2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

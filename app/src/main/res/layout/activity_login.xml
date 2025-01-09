@@ -9,38 +9,40 @@
 
     tools:context=".LoginActivity">
 
+
     <TextView
         android:id="@+id/txtwelcomelogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imglogin"
-        android:layout_width="160dp"
-        android:layout_height="142dp"
+        android:layout_width="288dp"
+        android:layout_height="257dp"
         android:layout_marginTop="142dp"
         android:layout_marginBottom="141dp"
         app:layout_constraintBottom_toBottomOf="@+id/txtPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtwelcomelogin"
+        app:layout_constraintVertical_bias="0.585"
         app:srcCompat="@drawable/logoor" />
-
 
     <Button
         android:id="@+id/btnlogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="91dp"
+        android:layout_width="105dp"
+        android:layout_height="61dp"
+        android:layout_marginEnd="80dp"
         android:background="#7BEFE6"
         android:text="log in"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnBack"
@@ -48,46 +50,51 @@
 
     <EditText
         android:id="@+id/txtPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="57dp"
         android:layout_marginTop="30dp"
         android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@+id/txtemail"
         app:layout_constraintTop_toBottomOf="@+id/txtemail" />
 
     <EditText
         android:id="@+id/txtemail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="217dp"
+        android:layout_height="55dp"
         android:ems="10"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.578" />
 
     <TextView
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="35dp"
+        android:layout_width="182dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="serif"
         android:text="Log In"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/txtwelcomelogin"
         app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="106dp"
+        android:layout_height="58dp"
 
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="126dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="200dp"
         android:background="#7BEFE6"
         android:text="back"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,24 +13,23 @@
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="117dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="serif"
-        android:text="Welcome to ORganizer!"
 
+        android:text="Welcome to ORganizer!"
         android:textColor="@color/black"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="37dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="36dp"
         android:fontFamily="serif"
         android:text="Log In"
         android:textColor="@color/black"
@@ -38,7 +37,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/welcome"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
-
 
     <EditText
         android:id="@+id/etID"
@@ -77,20 +75,19 @@
         android:id="@+id/etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="365dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/etPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Phone"
         android:inputType="text"
@@ -102,34 +99,37 @@
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="20dp"
         android:background="#7BEFE6"
         android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.724"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etName"
+        app:layout_constraintStart_toEndOf="@+id/etName"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="138dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="413dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome"
+        app:layout_constraintTop_toTopOf="@+id/login"
         app:srcCompat="@drawable/logoor" />
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="118dp"
+
         android:background="#7BEFE6"
         android:text="back"
-
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave"
-        app:layout_constraintEnd_toStartOf="@+id/btnSave" />
+        app:layout_constraintEnd_toEndOf="@+id/etName"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

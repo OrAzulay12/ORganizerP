@@ -15,46 +15,49 @@
         android:id="@+id/btntologin"
         android:layout_width="271dp"
         android:layout_height="0dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginBottom="51dp"
+        android:layout_marginBottom="150dp"
         android:background="#7BEFE6"
         android:text="Log In"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/btntoregister"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgwelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/btntoregister" />
 
     <Button
         android:id="@+id/btntoregister"
         android:layout_width="259dp"
         android:layout_height="0dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="34dp"
         android:background="#7BEFE6"
         android:text="register"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/btntoodot"
+        app:layout_constraintBottom_toTopOf="@+id/btntologin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btntologin" />
+        app:layout_constraintTop_toBottomOf="@+id/btntoodot" />
 
     <Button
         android:id="@+id/btntoodot"
         android:layout_width="267dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="85dp"
+        android:layout_marginBottom="27dp"
         android:background="#7BEFE6"
         android:text="about"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btntoregister"
-        app:layout_constraintTop_toBottomOf="@+id/btntoregister" />
+        app:layout_constraintBottom_toTopOf="@+id/btntoregister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgwelcome" />
 
     <TextView
         android:id="@+id/txtwelcome"
-        android:layout_width="0dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="78dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="448dp"
+        android:layout_height="135dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="27dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textAlignment="center"
@@ -63,18 +66,18 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imgwelcome"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgwelcome"
-        android:layout_width="389dp"
-        android:layout_height="344dp"
-        android:layout_marginBottom="37dp"
-        app:layout_constraintBottom_toTopOf="@+id/btntologin"
+        android:layout_width="382dp"
+        android:layout_height="271dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/btntoodot"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.727"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtwelcome"
         app:srcCompat="@drawable/logoor" />

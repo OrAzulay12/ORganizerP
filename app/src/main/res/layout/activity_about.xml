@@ -12,20 +12,20 @@
       android:id="@+id/txtwelcomelogin"
       android:layout_width="184dp"
       android:layout_height="36dp"
-
-      android:layout_marginTop="36dp"
+      android:layout_marginTop="120dp"
       android:fontFamily="serif"
       android:text="Welcome to ORganizer!"
       android:textColor="@color/black"
       android:textSize="15sp"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.541"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
   <ImageView
       android:id="@+id/imglogin"
-      android:layout_width="160dp"
-      android:layout_height="142dp"
+      android:layout_width="246dp"
+      android:layout_height="246dp"
       android:layout_marginTop="92dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.498"
@@ -37,12 +37,11 @@
       android:id="@+id/btnBack"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="68dp"
+      android:layout_marginBottom="196dp"
       android:background="#7BEFE6"
       android:text="back"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.538"
       app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

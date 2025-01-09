@@ -34,14 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         // Set onClickListener for backButton
         backButton.setOnClickListener(v -> {
             // Go back to the previous screen (e.g., Register activity)
-            Intent intent = new Intent(LoginActivity.this, Register.class);
+            Intent intent = new Intent(LoginActivity.this, MainPage.class);
             startActivity(intent);
         });
 
         // Set onClickListener for loginButton
         loginButton.setOnClickListener(v -> {
             // Implement login logic (e.g., Firebase authentication)
-            Intent intent = new Intent(LoginActivity.this, MainPage.class);
+            Intent intent = new Intent(LoginActivity.this, HomePage.class);
             startActivity(intent);
         });
     }
