@@ -2,7 +2,9 @@ package com.or.organizerp.model;
 
 public class User {
     private String id;
-    private String name;
+    private String fname;
+    private String lname;
+
     private String phone;
     private String email;
     private String password;
@@ -10,20 +12,13 @@ public class User {
     public User() {
     }
 
-    public User(String id, String name, String phone, String email, String password) {
+    public User(String id, String fname, String lname, String phone, String email, String password) {
         this.id = id;
-        this.name = name;
+        this.fname = fname;
+        this.lname = lname;
         this.phone = phone;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String id, String name, String phone, String email) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.password = null;
     }
 
     public String getId() {
@@ -34,12 +29,20 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFname() {
+        return fname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public String getPhone() {
@@ -70,7 +73,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

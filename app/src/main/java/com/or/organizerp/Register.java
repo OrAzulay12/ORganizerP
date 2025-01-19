@@ -1,5 +1,6 @@
 package com.or.organizerp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import com.or.organizerp.model.User;
 
 public class Register extends AppCompatActivity {
 
-    EditText etName, etPhone, etEmail, etPassword;
+    EditText etFName,etLName, etPhone, etEmail, etPassword;
     Button saveButton, backButton;
 
     private DatabaseReference myRef;
@@ -43,6 +44,9 @@ public class Register extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+
         // Apply window insets for padding adjustments (system bars)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -51,7 +55,8 @@ public class Register extends AppCompatActivity {
         });
 
         // Initialize the EditText fields and Save button
-        etName = findViewById(R.id.etName);
+        etFName = findViewById(R.id.etFname);
+        etLName = findViewById(R.id.etLName);
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -72,13 +77,14 @@ public class Register extends AppCompatActivity {
 
         // Set the OnClickListener for the Save button
         saveButton.setOnClickListener(v -> {
-            String name = etName.getText().toString().trim();
+            String fname = etFName.getText().toString().trim();
+            String lname = etLName.getText().toString().trim();
             String phone = etPhone.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
             // Validate inputs
-            if (validateInput(name, phone, email, password)) {
+            if (validateInput(fname,  lname, phone, email, password)) {
                 // Create a User object (assuming you have a User class)
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -87,13 +93,15 @@ public class Register extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Log.d("TAG", "createUserWithEmail:success");
                                     FirebaseUser fireuser = mAuth.getCurrentUser();
-                                    User newUser = new User(mAuth.getUid(), name, phone, email, password);
+                                    User newUser = new User(mAuth.getUid(), fname, lname, phone, email, password);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString("email", email);
+
+                                    editor.putString("password",password);
                                     editor.apply();  // Use apply() for asynchronous saving
 
                                     // Display success message
-                                    Toast.makeText(Register.this, "Data Saved! Welcome, " + newUser.getName(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Register.this, "Data Saved! Welcome, " + newUser.getFname(), Toast.LENGTH_LONG).show();
 
                                     // Redirect to Home or other activity
                                     Intent goToHome = new Intent(Register.this, MainPage.class);  // Change HomeActivity to your target activity
@@ -111,9 +119,14 @@ public class Register extends AppCompatActivity {
     }
 
     // Validate the user input fields
-    private boolean validateInput(String name, String phone, String email, String password) {
-        if (TextUtils.isEmpty(name)) {
-            etName.setError("Name is required");
+    private boolean validateInput(String fname,   String lname ,String phone, String email, String password) {
+        if (TextUtils.isEmpty(fname)) {
+            etFName.setError("Name is required");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(lname)) {
+            etLName.setError("Name is required");
             return false;
         }
         if (TextUtils.isEmpty(phone)) {

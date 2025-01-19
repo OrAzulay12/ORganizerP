@@ -5,27 +5,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomePage extends AppCompatActivity {
 
-    Button backButton, logOutButton;
-    Spinner spCreateEvent;
+    Button backButton, logOutButton, calenderButton;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);  // Make sure this layout exists
+        setContentView(R.layout.activity_home_page);
+
+
+
+    // Make sure this layout exists
 
         // Initialize backButton and spinner
         backButton = findViewById(R.id.btnBackHomePage2); // Make sure this ID exists in your layout
+        calenderButton = findViewById(R.id.btncalender); // Make sure this ID exists in your layout
         logOutButton = findViewById(R.id.btnLogOutHomePage2); // Make sure this ID exists in your layout
-        spCreateEvent = findViewById(R.id.spCreateEvent2); // Make sure this ID exists in your layout
+
 
         // Set onClickListener for backButton
         backButton.setOnClickListener(v -> {
@@ -39,6 +48,12 @@ public class HomePage extends AppCompatActivity {
             // Sign out the user from Firebase
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomePage.this, MainPage.class);
+            startActivity(intent);
+        });
+        calenderButton.setOnClickListener(v -> {
+            // Sign out the user from Firebase
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(HomePage.this, calender.class);
             startActivity(intent);
         });
 

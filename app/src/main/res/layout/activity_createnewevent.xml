@@ -18,27 +18,37 @@
         android:id="@+id/txtwelcomelogin"
         android:layout_width="201dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="59dp"
+        android:layout_marginBottom="37dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textColor="@color/black"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="59dp" />
+        app:layout_constraintBottom_toTopOf="@+id/imglogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Log Out Button -->
     <ImageView
         android:id="@+id/imglogin"
         android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/logoor"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="116dp" />
+        android:layout_height="0dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="111dp"
+        app:layout_constraintBottom_toTopOf="@+id/spCreateEvent"
+        app:layout_constraintEnd_toEndOf="@+id/txtwelcomelogin"
+        app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin"
+        app:srcCompat="@drawable/logoor" />
 
-    <!-- Log Out Button -->
     <Spinner
         android:id="@+id/spCreateEvent"
         android:layout_width="178dp"
-        android:layout_height="72dp"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="427dp" />
+        android:layout_height="0dp"
+        android:layout_marginBottom="498dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

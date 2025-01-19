@@ -12,10 +12,9 @@
     <!-- Welcome Text -->
     <TextView
         android:id="@+id/txtwelcomelogin2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="183dp"
+        android:layout_height="0dp"
         android:layout_marginTop="64dp"
-        android:layout_marginBottom="276dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textColor="@color/black"
@@ -31,12 +30,16 @@
 
     <!-- Spinner for Event Creation -->
 
+    <!-- Log Out Button -->
+
     <ImageView
         android:id="@+id/imglogin2"
-        android:layout_width="172dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="224dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogOutHomePage2"
+        android:layout_marginStart="82dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="585dp"
+        app:layout_constraintBottom_toTopOf="@+id/btncalender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin2"
@@ -44,34 +47,38 @@
 
     <Button
         android:id="@+id/btnBackHomePage2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="39dp"
-        android:layout_marginBottom="74dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="101dp"
         android:background="#7BEFE6"
         android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/spCreateEvent2"
-        app:layout_constraintTop_toBottomOf="@+id/spCreateEvent2" />
-
-    <!-- Log Out Button -->
-    <Spinner
-        android:id="@+id/spCreateEvent2"
-        android:layout_width="178dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btnBackHomePage2"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLogOutHomePage2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogOutHomePage2" />
+        app:layout_constraintStart_toEndOf="@+id/btnLogOutHomePage2"
+        app:layout_constraintTop_toTopOf="@+id/btnLogOutHomePage2" />
 
     <Button
         android:id="@+id/btnLogOutHomePage2"
-        android:layout_width="111dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="49dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="69dp"
         android:background="#7BEEE5"
         android:text="Log Out"
-        app:layout_constraintBottom_toTopOf="@+id/spCreateEvent2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBackHomePage2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btncalender" />
+
+    <Button
+        android:id="@+id/btncalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:background="#7BEDE4"
+        android:text="go to calender"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogOutHomePage2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imglogin2" />
