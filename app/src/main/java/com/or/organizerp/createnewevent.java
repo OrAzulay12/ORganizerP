@@ -33,13 +33,13 @@ public class createnewevent extends AppCompatActivity {
     Button btnSubmitEvent, btnBackToCalender;
 
     private DatabaseService databaseService;
-    private String formattedDate;
     private ArrayList<User> users = new ArrayList<>();
     private ListView lvMembers, lvSelectedMembers;
     private UserNamAdapter<User> adapter;
     private UserNamAdapter<User> selectedAdapter;
     private ArrayList<User> usersSelected = new ArrayList<>();
     private String uid;
+    private String selectedDate;  // To hold the selected date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +99,13 @@ public class createnewevent extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter2);
 
-        String selectedDate = getIntent().getStringExtra("selectedDate");
-        if (selectedDate != null) {
-            formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(selectedDate));
-            edtEventDate.setText(formattedDate);
+        // Retrieve the selected date from the Intent (if available)
+        selectedDate = getIntent().getStringExtra("selectedDate");
+        if (selectedDate != null && !selectedDate.isEmpty()) {
+            // Format the selected date and set it in the EditText
+            edtEventDate.setText(selectedDate);
         } else {
-            edtEventDate.setText("No date selected");
+            edtEventDate.setText("No date selected"); // Default message
         }
     }
 
@@ -146,3 +147,4 @@ public class createnewevent extends AppCompatActivity {
         });
     }
 }
+

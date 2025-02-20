@@ -1,16 +1,13 @@
 package com.or.organizerp;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,20 +17,15 @@ import com.or.organizerp.adapter.GroupEventAdapter;
 import com.or.organizerp.model.GroupEvent;
 import com.or.organizerp.services.DatabaseService;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class HomePage extends AppCompatActivity {
 
-    Button backButton, logOutButton, calenderButton, deleteEventButton;
-    TextView txtEventDetails;
-
+    Button backButton, logOutButton, calenderButton;
     ListView lvAllEvents;
 
     ArrayList<GroupEvent> events;
-
     GroupEventAdapter<GroupEvent> eventAdapter;
 
     private DatabaseService databaseService;
@@ -50,17 +42,13 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemCli
         events = new ArrayList<>();
 
         // Initialize views
-        txtEventDetails = findViewById(R.id.txtEventDetails);
         backButton = findViewById(R.id.btnBackHomePage2);
         calenderButton = findViewById(R.id.btncalender);
         logOutButton = findViewById(R.id.btnLogOutHomePage2);
-        deleteEventButton = findViewById(R.id.btnDeleteEvent);
-
         lvAllEvents = findViewById(R.id.lvAllEvents);
 
         eventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, events);
         lvAllEvents.setAdapter(eventAdapter);
-        lvAllEvents.setOnItemClickListener(this);
 
         // Fetch events from the database
         databaseService.getGroupEvents(new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
@@ -97,17 +85,10 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemCli
             startActivity(intent);
         });
 
-        // Delete event from the database
-        deleteEventButton.setOnClickListener(v -> {
-            if (selectedEvent == null) {
-                Toast.makeText(HomePage.this, "No event selected to delete.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
-                selectedEvent = events.get(position);
-            });
-
-            String eventId = selectedEvent.getId();
+        // Set item click listener to detect the selected event
+        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
+            selectedEvent = events.get(position);  // Set the selected event
+            String eventId = selectedEvent.getId();  // Now, it's safe to call getId()
 
             // Call delete method from DatabaseService
             databaseService.deleteGroupEvent(eventId, new DatabaseService.DatabaseCallback<Void>() {
@@ -125,30 +106,5 @@ public class HomePage extends AppCompatActivity implements AdapterView.OnItemCli
                 }
             });
         });
-
-// Using Long to get the event date
-
-//        if (eventName != null && eventDescription != null && eventType != null && eventDateMillis > 0) {
-////            String eventDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(eventDateMillis));
-////            String eventDetails = "Event: " + eventName + "\nDescription: " + eventDescription + "\nType: " + eventType + "\nDate: " + eventDate;
-////            txtEventDetails.setText(eventDetails);
-////        } else {
-////            txtEventDetails.setText("No event created yet.");
-////        }
-////
-//         List item click listener to capture the selected event
-////        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
-////            selectedEvent = events.get(position);
-////        });
-////    }
-//
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        // Handle item click if necessary (currently handled by OnItemClickListener for lvAllEvents)
-   }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
     }
 }
