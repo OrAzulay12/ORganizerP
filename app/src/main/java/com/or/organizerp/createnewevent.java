@@ -1,54 +1,148 @@
 package com.or.organizerp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class createnewevent extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import com.or.organizerp.adapter.UserNamAdapter;
+import com.or.organizerp.model.GroupEvent;
+import com.or.organizerp.model.User;
+import com.or.organizerp.services.DatabaseService;
 
-    Spinner spCreateEvent;
-    Button btnSubmitEvent;
-    private String selectedEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class createnewevent extends AppCompatActivity {
+
+    private static final String TAG = "AddNewEvent";
+
+    EditText edtEventName, edtDescription, edtEventDate;
+    Spinner spType;
+    Button btnSubmitEvent, btnBackToCalender;
+
+    private DatabaseService databaseService;
+    private String formattedDate;
+    private ArrayList<User> users = new ArrayList<>();
+    private ListView lvMembers, lvSelectedMembers;
+    private UserNamAdapter<User> adapter;
+    private UserNamAdapter<User> selectedAdapter;
+    private ArrayList<User> usersSelected = new ArrayList<>();
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createnewevent);
 
-        // Initialize views
-        spCreateEvent = findViewById(R.id.spCreateEvent);
+        databaseService = DatabaseService.getInstance();
+        uid = getIntent().getStringExtra("userId"); // Retrieve the user ID from the intent
 
-        spCreateEvent.setOnItemSelectedListener(this);
+        initViews();
 
+        // Fetch users from the database
+        databaseService.getUsers(new DatabaseService.DatabaseCallback<List<User>>() {
+            @Override
+            public void onCompleted(List<User> object) {
+                users.clear();
+                users.addAll(object);
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onFailed(Exception e) {
+                e.printStackTrace();
+            }
+        });
 
+        // Back to Calendar
+        btnBackToCalender.setOnClickListener(v -> {
+            Intent intent = new Intent(createnewevent.this, calender.class);
+            startActivity(intent);
+        });
 
-        // Populate Spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.ArryEventType, android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCreateEvent.setAdapter(adapter);
-
-        // Button Click Listener
-
+        // Submit Event
+        btnSubmitEvent.setOnClickListener(v -> {
+            addGroupEventToDatabase();
+        });
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-         selectedEvent = spCreateEvent.getSelectedItem().toString();
-        Toast.makeText(this, "Event Selected: " + selectedEvent, Toast.LENGTH_SHORT).show();
+    private void initViews() {
+        edtEventName = findViewById(R.id.edtEventName);
+        edtDescription = findViewById(R.id.edtDescription);
+        edtEventDate = findViewById(R.id.edtEventDate);
+        spType = findViewById(R.id.spCreateEvent);
+        btnSubmitEvent = findViewById(R.id.btnSubmitEvent);
+        btnBackToCalender = findViewById(R.id.btnbacktocalender);
+        lvMembers = findViewById(R.id.lvMembers2);
+        lvSelectedMembers = findViewById(R.id.lvSelected);
+
+        adapter = new UserNamAdapter<>(this, 0, 0, users);
+        lvMembers.setAdapter(adapter);
+
+        selectedAdapter = new UserNamAdapter<>(this, 0, 0, usersSelected);
+        lvSelectedMembers.setAdapter(selectedAdapter);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+                this, R.array.ArryEventType, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spType.setAdapter(adapter2);
+
+        String selectedDate = getIntent().getStringExtra("selectedDate");
+        if (selectedDate != null) {
+            formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(selectedDate));
+            edtEventDate.setText(formattedDate);
+        } else {
+            edtEventDate.setText("No date selected");
+        }
     }
 
+    private void addGroupEventToDatabase() {
+        String eventName = edtEventName.getText().toString().trim();
+        String eventDescription = edtDescription.getText().toString().trim();
+        String eventType = spType.getSelectedItem().toString();
+        String eventDate = edtEventDate.getText().toString().trim();
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        if (eventName.isEmpty() || eventDescription.isEmpty() || eventType == null || eventDate.isEmpty()) {
+            Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Store event details in SharedPreferences (optional)
+        SharedPreferences preferences = getSharedPreferences("events", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("eventName", eventName);
+        editor.putString("eventDescription", eventDescription);
+        editor.putString("eventType", eventType);
+        editor.putString("eventDate", eventDate);
+        editor.apply();
+
+        String eventId = databaseService.generateGroupEventId();
+        GroupEvent groupEvent = new GroupEvent(eventId, eventName, eventType, eventDate, "", eventDescription, 1, null, null, null, null);
+
+        databaseService.createNewGroupEvent(groupEvent, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+                Toast.makeText(createnewevent.this, "Event created successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(createnewevent.this, HomePage.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(createnewevent.this, "Failed to create event", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

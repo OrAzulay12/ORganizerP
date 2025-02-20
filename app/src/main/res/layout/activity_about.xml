@@ -10,28 +10,44 @@
 
   <TextView
       android:id="@+id/txtwelcomelogin"
-      android:layout_width="184dp"
-      android:layout_height="36dp"
-      android:layout_marginTop="120dp"
+      android:layout_width="213dp"
+      android:layout_height="0dp"
+      android:layout_marginStart="84dp"
+      android:layout_marginBottom="149dp"
+      android:fontFamily="serif"
+      android:text="An app maded by Or A"
+      android:textAlignment="center"
+      android:textColor="@color/black"
+      android:textSize="25sp"
+      app:layout_constraintBottom_toTopOf="@+id/btnBack"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+
+  <ImageView
+      android:id="@+id/imglogin"
+      android:layout_width="197dp"
+      android:layout_height="184dp"
+      android:layout_marginBottom="68dp"
+      app:layout_constraintBottom_toTopOf="@+id/txtwelcomelogin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txtabout"
+      app:srcCompat="@drawable/logoor" />
+
+  <TextView
+      android:id="@+id/txtabout"
+      android:layout_width="198dp"
+      android:layout_height="98dp"
+      android:layout_marginTop="67dp"
+      android:layout_marginBottom="17dp"
       android:fontFamily="serif"
       android:text="Welcome to ORganizer!"
       android:textColor="@color/black"
       android:textSize="15sp"
+      app:layout_constraintBottom_toTopOf="@+id/imglogin"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.541"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
-
-  <ImageView
-      android:id="@+id/imglogin"
-      android:layout_width="246dp"
-      android:layout_height="246dp"
-      android:layout_marginTop="92dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/txtwelcomelogin"
-      app:srcCompat="@drawable/logoor" />
 
   <Button
       android:id="@+id/btnBack"
@@ -42,6 +58,7 @@
       android:text="back"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

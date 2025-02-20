@@ -10,45 +10,137 @@
     tools:context=".HomePage">
 
     <!-- Welcome Text -->
-
-    <!-- Logo Image -->
-
-    <!-- Spinner for Event Creation -->
     <TextView
         android:id="@+id/txtwelcomelogin"
         android:layout_width="201dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginBottom="32dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textColor="@color/black"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/imglogin"
+        app:layout_constraintBottom_toTopOf="@+id/logoor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Log Out Button -->
+    <!-- Logo Image -->
+
+    <!-- Spinner for Event Creation -->
+
+    <!-- Calendar View to select date -->
+
+    <!-- EditText for Event Name -->
+
+    <!-- EditText for Event Description -->
     <ImageView
-        android:id="@+id/imglogin"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="111dp"
+        android:id="@+id/logoor"
+        android:layout_width="213dp"
+        android:layout_height="119dp"
+        android:layout_marginBottom="9dp"
         app:layout_constraintBottom_toTopOf="@+id/spCreateEvent"
-        app:layout_constraintEnd_toEndOf="@+id/txtwelcomelogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin"
         app:srcCompat="@drawable/logoor" />
 
     <Spinner
         android:id="@+id/spCreateEvent"
         android:layout_width="178dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="498dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/edtEventName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+        app:layout_constraintTop_toBottomOf="@+id/logoor" />
+
+    <!-- Submit Button -->
+
+    <EditText
+        android:id="@+id/edtEventName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:hint="Enter Event Name"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/edtEventDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spCreateEvent" />
+
+    <EditText
+        android:id="@+id/edtEventDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:hint="Enter Event Date"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/edtDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEventName" />
+
+    <EditText
+        android:id="@+id/edtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:hint="Enter Event Description"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/lvMembers2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEventDate" />
+
+    <Button
+        android:id="@+id/btnSubmitEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="53dp"
+        android:background="#81F3E9"
+        android:text="Create Event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnbacktocalender"
+        app:layout_constraintTop_toBottomOf="@+id/lvMembers2" />
+
+
+    <Button
+        android:id="@+id/btnbacktocalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="17dp"
+        android:background="#80F2E8"
+        android:text="back to calender"
+        app:layout_constraintEnd_toStartOf="@+id/btnSubmitEvent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvMembers2" />
+
+    <ListView
+
+        android:id="@+id/lvMembers2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmitEvent"
+        app:layout_constraintEnd_toStartOf="@+id/lvSelected"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
+
+    <ListView
+        android:id="@+id/lvSelected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lvMembers2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lvMembers2"
+        app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

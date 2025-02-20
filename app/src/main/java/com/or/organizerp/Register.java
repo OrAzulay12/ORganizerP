@@ -26,25 +26,30 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.or.organizerp.model.User;
+import com.or.organizerp.services.AuthenticationService;
+import com.or.organizerp.services.DatabaseService;
+import com.or.organizerp.utils.SharedPreferencesUtil;
 
 public class Register extends AppCompatActivity {
 
     EditText etFName,etLName, etPhone, etEmail, etPassword;
     Button saveButton, backButton;
 
-    private DatabaseReference myRef;
-    public static final String MyPREFERENCES = "MyPrefs";
-    SharedPreferences sharedpreferences;
+    private static final String TAG = "RegisterActivity";
 
-    private FirebaseAuth mAuth;
 
+    private AuthenticationService authenticationService;
+    private DatabaseService databaseService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        /// get the instance of the authentication service
+        authenticationService = AuthenticationService.getInstance();
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
 
 
         // Apply window insets for padding adjustments (system bars)
@@ -63,9 +68,7 @@ public class Register extends AppCompatActivity {
         saveButton = findViewById(R.id.btnSave);
         backButton = findViewById(R.id.btnBack);  // Initialize back button
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users");
 
-        mAuth = FirebaseAuth.getInstance();
 
         // Back Button functionality
         backButton.setOnClickListener(v -> {
@@ -84,39 +87,81 @@ public class Register extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             // Validate inputs
-            if (validateInput(fname,  lname, phone, email, password)) {
-                // Create a User object (assuming you have a User class)
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("TAG", "createUserWithEmail:success");
-                                    FirebaseUser fireuser = mAuth.getCurrentUser();
-                                    User newUser = new User(mAuth.getUid(), fname, lname, phone, email, password);
-                                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                                    editor.putString("email", email);
+            if (validateInput(fname, lname, phone, email, password)) {
 
-                                    editor.putString("password",password);
-                                    editor.apply();  // Use apply() for asynchronous saving
-
-                                    // Display success message
-                                    Toast.makeText(Register.this, "Data Saved! Welcome, " + newUser.getFname(), Toast.LENGTH_LONG).show();
-
-                                    // Redirect to Home or other activity
-                                    Intent goToHome = new Intent(Register.this, MainPage.class);  // Change HomeActivity to your target activity
-                                    startActivity(goToHome);
-                                    finish(); // Optional
-                                } else {
-                                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                /// Register user
+                registerUser(fname, lname, phone, email, password);
             }
         });
     }
+
+            // Create a User object (assuming you have a User class)
+
+
+                /// Register the user
+                private void registerUser(String fname, String lname, String  phone, String email, String password) {
+                    Log.d(TAG, "registerUser: Registering user...");
+
+                    /// call the sign up method of the authentication service
+                    authenticationService.signUp(email, password, new AuthenticationService.AuthCallback<String>() {
+
+                        @Override
+                        public void onCompleted(String uid) {
+                            Log.d(TAG, "onCompleted: User registered successfully");
+                            /// create a new user object
+                            User user = new User();
+                            user.setId(uid);
+                            user.setEmail(email);
+                            user.setPassword(password);
+                            user.setFname(fname);
+                            user.setLname(lname);
+                            user.setPhone(phone);
+
+                            /// call the createNewUser method of the database service
+                            databaseService.createNewUser(user, new DatabaseService.DatabaseCallback<Void>() {
+
+                                @Override
+                                public void onCompleted(Void object) {
+                                    Log.d(TAG, "onCompleted: User registered successfully");
+                                    /// save the user to shared preferences
+                                    SharedPreferencesUtil.saveUser(Register.this, user);
+                                    Log.d(TAG, "onCompleted: Redirecting to MainActivity");
+                                    /// Redirect to MainActivity and clear back stack to prevent user from going back to register screen
+                                    Intent mainIntent = new Intent(Register.this, HomePage.class);
+                                    /// clear the back stack (clear history) and start the MainActivity
+                                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(mainIntent);
+                                }
+
+                                @Override
+                                public void onFailed(Exception e) {
+                                    Log.e(TAG, "onFailed: Failed to register user", e);
+                                    /// show error message to user
+                                    Toast.makeText(Register.this, "Failed to register user", Toast.LENGTH_SHORT).show();
+                                    /// sign out the user if failed to register
+                                    /// this is to prevent the user from being logged in again
+                                    authenticationService.signOut();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+                            Log.e(TAG, "onFailed: Failed to register user", e);
+                            /// show error message to user
+                            Toast.makeText(Register.this, "Failed to register user", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                }
+
+
+
+
+
+
+
 
     // Validate the user input fields
     private boolean validateInput(String fname,   String lname ,String phone, String email, String password) {

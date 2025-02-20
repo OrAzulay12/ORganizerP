@@ -27,32 +27,33 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.or.organizerp.model.User;
+import com.or.organizerp.services.AuthenticationService;
+import com.or.organizerp.services.DatabaseService;
+import com.or.organizerp.utils.SharedPreferencesUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button loginButton, backButton;
 
-    public static final String MyPREFERENCES = "MyPrefs";
-    SharedPreferences sharedpreferences;
+
     String admin = "idosshati@gmail.com";
     public static Boolean isAdmin=false;
 
 
-
-
-
-    private static final String TAG = "loginToFireBase";
+private static final String TAG = "loginToFireBase";
     TextView tvLog;
     EditText etEmail2, etPass2;
     Button btnLog;
 
     String email2, pass2;
-    private FirebaseAuth mAuth;
 
 
 
 
-
+    private AuthenticationService authenticationService;
+    private DatabaseService databaseService;
+    private User user;
 
 
 
@@ -65,23 +66,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        mAuth = FirebaseAuth.getInstance();
 
 
 
         init_views();
 
-        database = FirebaseDatabase.getInstance();
-        email2 = sharedpreferences.getString("email", "");
-        pass2 = sharedpreferences.getString("password", "");
-        etEmail2.setText(email2);
-        etPass2.setText(pass2);
+        /// get the instance of the authentication service
+        authenticationService = AuthenticationService.getInstance();
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
+       user= SharedPreferencesUtil.getUser(this);
+
+
+     if(user!=null) {
+         email2 = user.getEmail();
+         pass2 = user.getPassword();
+         etEmail2.setText(email2);
+         etPass2.setText(pass2);
+
+     }
         btnLog.setOnClickListener(this);
-
-
-
 
 
     }
@@ -106,58 +111,69 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email2 = etEmail2.getText().toString();
         pass2 = etPass2.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email2, pass2)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                            editor.putString("email", email2);
-                            editor.putString("password", pass2);
-
-                            editor.commit();
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            final FirebaseUser user = mAuth.getCurrentUser();
-
-                            myRef = database.getReference("Users").child(mAuth.getUid());
-
-
-                        //    if (email2.equals(admin)) {
-                        //        Intent goLog = new Intent(getApplicationContext(), AdminPage.class);
-                       //         startActivity(goLog);
+        loginUser(email2,pass2);
 
 
 
-                       //     }
-
-
-                            Intent intent = new Intent(LoginActivity.this, HomePage.class);
-                            startActivity(intent);
-
-
-
-                        }
-
-                        else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        // ...
-                    }
-
-                });
     }
 
 
 
+private void loginUser(String email, String password) {
+        authenticationService.signIn(email, password, new AuthenticationService.AuthCallback<String>() {
+/// Callback method called when the operation is completed
+/// @param uid the user ID of the user that is logged in
+@Override
+public void onCompleted(String uid) {
+        Log.d(TAG, "onCompleted: User logged in successfully");
+        /// get the user data from the database
 
 
-}
+        databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
+        @Override
+            public void onCompleted(User u) {
+                    user = u;
+                Log.d(TAG, "onCompleted: User data retrieved successfully");
+                /// save the user data to shared preferences
+                   SharedPreferencesUtil.saveUser(LoginActivity.this, user);
+               /// Redirect to main activity and clear back stack to prevent user from going back to login screen
+               Intent mainIntent = new Intent(LoginActivity.this, HomePage  .class);
+                /// Clear the back stack (clear history) and start the MainActivity
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+
+        }
+
+                    @Override
+public void onFailed(Exception e) {
+        Log.e(TAG, "onFailed: Failed to retrieve user data", e);
+        /// Show error message to user
+        etEmail2.setError("Invalid email or password");
+        etEmail2.requestFocus();
+        /// Sign out the user if failed to retrieve user data
+        /// This is to prevent the user from being logged in again
+        authenticationService.signOut();
+
+        }
+        });
+
+
+        }
+
+
+
+@Override
+public void onFailed(Exception e) {
+        Log.e(TAG, "onFailed: Failed to log in user", e);
+        /// Show error message to user
+        etPass2.setError("Invalid email or password");
+        etPass2.requestFocus();
+
+        }
+        });
+        }
+
+
+
+
+        }

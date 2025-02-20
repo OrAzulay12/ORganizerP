@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class GroupEvent {
       protected String id;
+
       protected  String name;
       protected  String type;
       protected  String date, time, details;
