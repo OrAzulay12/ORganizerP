@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +35,7 @@ public class HomePage extends AppCompatActivity {
     private DatabaseService databaseService;
 
     private GroupEvent selectedEvent;  // Variable to store the selected event for deletion
+    private GestureDetector gestureDetector;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +54,27 @@ public class HomePage extends AppCompatActivity {
 
         eventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, events);
         lvAllEvents.setAdapter(eventAdapter);
+
+        // Gesture Detector to detect double taps
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                // Get the position of the event where the double-tap occurred
+                int position = lvAllEvents.pointToPosition((int) e.getX(), (int) e.getY());
+                if (position != AdapterView.INVALID_POSITION) {
+                    selectedEvent = events.get(position);  // Set the selected event
+
+                    // Show a confirmation dialog to delete the event
+                    new AlertDialog.Builder(HomePage.this)
+                            .setMessage("Do you really want to delete this event?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", (dialog, id) -> deleteEvent())
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+                return true; // Indicate that the double tap is handled
+            }
+        });
 
         // Fetch events from the database
         databaseService.getGroupEvents(new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
@@ -85,10 +111,24 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Set item click listener to detect the selected event
-        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
-            selectedEvent = events.get(position);  // Set the selected event
-            String eventId = selectedEvent.getId();  // Now, it's safe to call getId()
+        // Set item click listener to show event details on single tap
+        lvAllEvents.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedEvent = events.get(position);  // Set the selected event
+
+                // Navigate to Event Detail page
+                Intent intent = new Intent(HomePage.this, EventDetailActivity.class); // Your event detail activity
+                intent.putExtra("eventId", selectedEvent.getId());  // Pass eventId to view details
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Method to delete the event from the database
+    private void deleteEvent() {
+        if (selectedEvent != null) {
+            String eventId = selectedEvent.getId();  // Get the selected event ID
 
             // Call delete method from DatabaseService
             databaseService.deleteGroupEvent(eventId, new DatabaseService.DatabaseCallback<Void>() {
@@ -105,6 +145,12 @@ public class HomePage extends AppCompatActivity {
                     Toast.makeText(HomePage.this, "Failed to delete event.", Toast.LENGTH_SHORT).show();
                 }
             });
-        });
+        }
+    }
+
+    // Override onTouchEvent to detect double tap
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
     }
 }

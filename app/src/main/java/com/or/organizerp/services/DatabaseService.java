@@ -26,20 +26,42 @@ public class DatabaseService {
     /// @see Log
     private static final String TAG = "DatabaseService";
 
-    public void deleteGroupEvent(String eventId, DatabaseCallback<Void> databaseCallback) {
+    public void deleteGroupEvent(String eventId, DatabaseCallback<Void> callback) {
+        // Reference to the group event in Firebase using the eventId
         databaseReference.child("groupEvents").child(eventId).removeValue()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (databaseCallback != null) {
-                            databaseCallback.onCompleted(null); // Successfully deleted
-                        }
+                        // Event successfully deleted, invoke the callback
+                        callback.onCompleted(null);
                     } else {
-                        if (databaseCallback != null) {
-                            databaseCallback.onFailed(task.getException()); // Failed to delete
-                        }
+                        // If there is an error, pass the exception to the callback
+                        callback.onFailed(task.getException());
                     }
                 });
     }
+
+    public void getGroupEventById(String eventId, DatabaseCallback<GroupEvent> databaseCallback) {
+        // Reference to the specific event node in Firebase using the eventId
+        databaseReference.child("groupEvents").child(eventId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // If the task is successful, get the event data
+                        GroupEvent groupEvent = task.getResult().getValue(GroupEvent.class);
+
+                        if (groupEvent != null) {
+                            // Successfully retrieved the event, pass it to the callback
+                            databaseCallback.onCompleted(groupEvent);
+                        } else {
+                            // Event not found, pass null to callback
+                            databaseCallback.onFailed(new Exception("Event not found"));
+                        }
+                    } else {
+                        // If there was an error, pass the exception to the callback
+                        databaseCallback.onFailed(task.getException());
+                    }
+                });
+    }
+
 
 
     /// callback interface for database operations
@@ -242,6 +264,7 @@ public class DatabaseService {
             callback.onCompleted(groupEvents);
         });
     }
+
 
     /// get all the users from the database
     /// @param callback the callback to call when the operation is completed
