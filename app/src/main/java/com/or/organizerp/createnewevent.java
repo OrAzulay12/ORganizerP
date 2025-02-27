@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import com.or.organizerp.adapter.UserNamAdapter;
 import com.or.organizerp.model.GroupEvent;
 import com.or.organizerp.model.User;
 import com.or.organizerp.services.DatabaseService;
+import com.or.organizerp.utils.SharedPreferencesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,9 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class createnewevent extends AppCompatActivity {
+public class createnewevent extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    EditText edtEventName, edtDescription, edtEventDate;
+    EditText edtEventName, edtDescription, edtEventDate, edtTime;
     Spinner spType;
     Button btnSubmitEvent, btnBackToCalender;
 
@@ -36,33 +39,34 @@ public class createnewevent extends AppCompatActivity {
     private UserNamAdapter<User> adapter;
     private UserNamAdapter<User> selectedAdapter;
     private ArrayList<User> usersSelected = new ArrayList<>();
-    private String uid;
-    private long selectedDateInMillis;  // To hold the selected date in milliseconds
+
+    private String selectedDateInMillis;  // To hold the selected date in milliseconds
+    private User user=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createnewevent);
 
-        // Initialize views
-        edtEventName = findViewById(R.id.edtEventName);
-        edtDescription = findViewById(R.id.edtDescription);
-        edtEventDate = findViewById(R.id.edtEventDate);
-        spType = findViewById(R.id.spCreateEvent);
-        btnSubmitEvent = findViewById(R.id.btnSubmitEvent);
-        btnBackToCalender = findViewById(R.id.btnbacktocalender);
-        lvMembers = findViewById(R.id.lvMembers2);
-        lvSelectedMembers = findViewById(R.id.lvSelected);
+
+        initViews();
+
 
         databaseService = DatabaseService.getInstance();
-        uid = getIntent().getStringExtra("userId");  // Retrieve the user ID from the intent
+       user= SharedPreferencesUtil.getUser(createnewevent.this); // Retrieve the user ID from the intent
 
         // Initialize the adapter before trying to use it
         adapter = new UserNamAdapter<>(this, 0, 0, users);
         lvMembers.setAdapter(adapter);
 
+        lvMembers.setOnItemClickListener(this);
+
+        usersSelected.add(user);
+
         selectedAdapter = new UserNamAdapter<>(this, 0, 0, usersSelected);
         lvSelectedMembers.setAdapter(selectedAdapter);
+        lvSelectedMembers.setOnItemLongClickListener(this);
+
 
         // Fetch users from the database
         databaseService.getUsers(new DatabaseService.DatabaseCallback<List<User>>() {
@@ -74,6 +78,8 @@ public class createnewevent extends AppCompatActivity {
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
+
+
             }
 
             @Override
@@ -89,13 +95,13 @@ public class createnewevent extends AppCompatActivity {
         });
 
         // Retrieve the selected date (in milliseconds) from the Intent
-        selectedDateInMillis = getIntent().getLongExtra("selectedDate", 0);
+        selectedDateInMillis = getIntent().getStringExtra("selectedDate");
 
         // Format and display the selected date in the EditText
-        if (selectedDateInMillis != 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            String formattedDate = sdf.format(new Date(selectedDateInMillis));
-            edtEventDate.setText(formattedDate);
+        if (!selectedDateInMillis.isEmpty()) {
+         //  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+          //  String formattedDate = sdf.format(new Date(selectedDateInMillis));
+            edtEventDate.setText(selectedDateInMillis);
         } else {
             edtEventDate.setText("No date selected");
         }
@@ -110,11 +116,26 @@ public class createnewevent extends AppCompatActivity {
         btnSubmitEvent.setOnClickListener(v -> addGroupEventToDatabase());
     }
 
+    private void initViews() {
+        // Initialize views
+        edtEventName = findViewById(R.id.edtEventName);
+        edtDescription = findViewById(R.id.edtDescription);
+        edtEventDate = findViewById(R.id.edtEventDate);
+        edtTime = findViewById(R.id.edtEventTime);
+        spType = findViewById(R.id.spCreateEvent);
+        btnSubmitEvent = findViewById(R.id.btnSubmitEvent);
+        btnBackToCalender = findViewById(R.id.btnbacktocalender);
+        lvMembers = findViewById(R.id.lvMembers2);
+        lvSelectedMembers = findViewById(R.id.lvSelected);
+    }
+
     private void addGroupEventToDatabase() {
         String eventName = edtEventName.getText().toString().trim();
         String eventDescription = edtDescription.getText().toString().trim();
         String eventType = spType.getSelectedItem().toString();  // Get the selected event type from Spinner
         String eventDate = edtEventDate.getText().toString().trim();
+        String eventTime = edtTime.getText().toString().trim();
+
 
         if (eventName.isEmpty() || eventDescription.isEmpty() || eventType == null || eventDate.isEmpty()) {
             Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show();
@@ -128,17 +149,31 @@ public class createnewevent extends AppCompatActivity {
         editor.putString("eventDescription", eventDescription);
         editor.putString("eventType", eventType);  // Save the event type here
         editor.putString("eventDate", eventDate);  // Save the formatted date as string
+        editor.putString("eventTime", eventTime);
         editor.apply();
 
         // Create GroupEvent object
         String eventId = databaseService.generateGroupEventId();
-        GroupEvent groupEvent = new GroupEvent(eventId, eventName, eventType, eventDate, "", eventDescription, 1, null, null, null, null);
+        GroupEvent groupEvent = new GroupEvent(eventId, eventName, eventType, eventDate, eventTime, eventDescription, 1, user, usersSelected, null, null);
 
         // Add the event to the database
         databaseService.createNewGroupEvent(groupEvent, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
                 Toast.makeText(createnewevent.this, "Event created successfully", Toast.LENGTH_SHORT).show();
+
+                databaseService.setEventForUsers(groupEvent, new DatabaseService.DatabaseCallback<Void>() {
+                    @Override
+                    public void onCompleted(Void object) {
+                        Toast.makeText(createnewevent.this, "EventUser  created successfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+                });
+
                 Intent intent = new Intent(createnewevent.this, HomePage.class);
                 startActivity(intent);
             }
@@ -148,5 +183,38 @@ public class createnewevent extends AppCompatActivity {
                 Toast.makeText(createnewevent.this, "Failed to create event", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        User selectedUser = (User) parent.getItemAtPosition(position);
+      if (!selectedUser.getId().equals(user.getId())) {
+            boolean found=false;
+          for (int i = 0; i < usersSelected.size(); i++) {
+              if (usersSelected.get(i).getId().equals(selectedUser.getId())) {
+
+                  found = true;
+
+              }
+          }
+               if(!found){
+                    usersSelected.add(selectedUser);
+                 selectedAdapter.notifyDataSetChanged();
+             }
+
+       }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+       User user = (User) parent.getItemAtPosition(position);
+
+       usersSelected.remove(user);
+
+        selectedAdapter.notifyDataSetChanged();
+
+
+        return false;
     }
 }

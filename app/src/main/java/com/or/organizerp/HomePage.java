@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.or.organizerp.adapter.GroupEventAdapter;
 import com.or.organizerp.model.GroupEvent;
+import com.or.organizerp.services.AuthenticationService;
 import com.or.organizerp.services.DatabaseService;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class HomePage extends AppCompatActivity {
     GroupEventAdapter<GroupEvent> eventAdapter;
 
     private DatabaseService databaseService;
+    AuthenticationService authenticationService;
+    String id;
 
     private GroupEvent selectedEvent;  // Variable to store the selected event for deletion
     private GestureDetector gestureDetector;
@@ -42,6 +45,8 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        authenticationService=AuthenticationService.getInstance();
+        id=authenticationService.getCurrentUserId();
 
         databaseService = DatabaseService.getInstance();
         events = new ArrayList<>();
@@ -77,7 +82,7 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Fetch events from the database
-        databaseService.getGroupEvents(new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
+        databaseService.getUserEvents(id  , new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
             @Override
             public void onCompleted(List<GroupEvent> object) {
                 Log.d("TAG", "onCompleted: " + object);

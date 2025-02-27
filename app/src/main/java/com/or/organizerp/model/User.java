@@ -21,6 +21,16 @@ public class User {
         this.password = password;
     }
 
+
+    public User(User user) {
+        this.id = user.id;
+        this.fname = user.fname;
+        this.lname = user.lname;
+        this.phone = user.phone;
+
+    }
+
+
     public String getId() {
         return id;
     }

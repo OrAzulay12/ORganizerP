@@ -191,8 +191,13 @@ public class DatabaseService {
         writeData("groupEvents/" + groupEvent.getId(), groupEvent, callback);
     }
 
+    public void setEventForUsers(@NotNull final GroupEvent groupEvent, @Nullable final DatabaseCallback<Void> callback) {
+        for(int i=0;i<groupEvent.getUsers().size();i++){
+            User user= groupEvent.getUsers().get(i);
 
-
+            writeData("Users/" + user.getId()+"/myEvents/"+groupEvent.getId(), groupEvent, callback);
+        }
+    }
 
     /// get a user from the database
     /// @param uid the id of the user to get
@@ -204,8 +209,51 @@ public class DatabaseService {
     /// @see User
     public void getUser(@NotNull final String uid, @NotNull final DatabaseCallback<User> callback) {
         getData("Users/" + uid, User.class, callback);
+
+    }
+    public void getUserEvents(@NotNull final String uid, final DatabaseCallback<List<GroupEvent>> callback) {
+
+
+        readData("Users/" + uid +"/myEvents").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<GroupEvent> groupEvents = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                GroupEvent groupEvent = dataSnapshot.getValue(GroupEvent.class);
+                Log.d(TAG, "Got groupEvent: " + groupEvent);
+                groupEvents.add(groupEvent);
+            });
+
+            callback.onCompleted(groupEvents);
+        });
+
+
     }
 
+    public void getAdminEvents(@NotNull final String uid, final DatabaseCallback<List<GroupEvent>> callback) {
+
+
+        readData("Users/" + uid +"/myEvents").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<GroupEvent> groupEvents = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                GroupEvent groupEvent = dataSnapshot.getValue(GroupEvent.class);
+                Log.d(TAG, "Got groupEvent: " + groupEvent);
+                groupEvents.add(groupEvent);
+            });
+
+            callback.onCompleted(groupEvents);
+        });
+
+
+    }
 
 
     /// get a groupEvent from the database
@@ -218,6 +266,11 @@ public class DatabaseService {
     /// @see GroupEvent
     public void getGroupEvent(@NotNull final String groupEventId, @NotNull final DatabaseCallback<GroupEvent> callback) {
         getData("groupEvents/" + groupEventId, GroupEvent.class, callback);
+
+
+
+
+
     }
 
 
@@ -285,6 +338,7 @@ public class DatabaseService {
             List<User> users = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 User user = dataSnapshot.getValue(User.class);
+                user=new User(user);
                 Log.d(TAG, "Got user: " + user);
                 users.add(user);
             });

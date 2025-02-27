@@ -10,20 +10,6 @@
     tools:context=".HomePage">
 
     <!-- Welcome Text -->
-    <TextView
-        android:id="@+id/txtwelcomelogin"
-        android:layout_width="201dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="serif"
-        android:text="Welcome to ORganizer!"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/logoor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo Image -->
 
@@ -34,11 +20,27 @@
     <!-- EditText for Event Name -->
 
     <!-- EditText for Event Description -->
+
+    <TextView
+        android:id="@+id/txtwelcomelogin"
+        android:layout_width="201dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="49dp"
+        android:layout_marginBottom="14dp"
+        android:fontFamily="serif"
+        android:text="Welcome to ORganizer!"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/logoor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/logoor"
-        android:layout_width="213dp"
-        android:layout_height="119dp"
-        android:layout_marginBottom="9dp"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="23dp"
         app:layout_constraintBottom_toTopOf="@+id/spCreateEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +51,7 @@
         android:id="@+id/spCreateEvent"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="38dp"
         app:layout_constraintBottom_toTopOf="@+id/edtEventName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +63,7 @@
         android:id="@+id/edtEventName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="20dp"
         android:hint="Enter Event Name"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/edtEventDate"
@@ -69,14 +71,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spCreateEvent" />
 
+
     <EditText
         android:id="@+id/edtEventDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="12dp"
         android:hint="Enter Event Date"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/edtDescription"
+        app:layout_constraintBottom_toTopOf="@+id/edtEventTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtEventName" />
@@ -85,36 +88,35 @@
         android:id="@+id/edtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="15dp"
         android:hint="Enter Event Description"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/lvMembers2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEventDate" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEventTime" />
 
     <Button
         android:id="@+id/btnSubmitEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="53dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="24dp"
         android:background="#81F3E9"
         android:text="Create Event"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnbacktocalender"
-        app:layout_constraintTop_toBottomOf="@+id/lvMembers2" />
-
+        app:layout_constraintTop_toBottomOf="@+id/lvSelected" />
 
     <Button
         android:id="@+id/btnbacktocalender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="17dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="32dp"
         android:background="#80F2E8"
         android:text="back to calender"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSubmitEvent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvMembers2" />
@@ -124,9 +126,10 @@
         android:id="@+id/lvMembers2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSubmitEvent"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnbacktocalender"
         app:layout_constraintEnd_toStartOf="@+id/lvSelected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
@@ -135,12 +138,23 @@
         android:id="@+id/lvSelected"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/lvMembers2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lvMembers2"
-        app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
+        app:layout_constraintTop_toTopOf="@+id/lvMembers2" />
+
+    <EditText
+        android:id="@+id/edtEventTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:hint="Enter Event time"
+        android:inputType="time"
+        app:layout_constraintBottom_toTopOf="@+id/edtDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEventDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

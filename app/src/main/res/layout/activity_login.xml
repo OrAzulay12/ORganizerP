@@ -40,8 +40,8 @@
 
     <Button
         android:id="@+id/btnGologin"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="198dp"
         android:background="#7BEFE6"
@@ -54,7 +54,7 @@
     <EditText
         android:id="@+id/etPasswordLogIn"
         android:layout_width="220dp"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="51dp"
         android:ems="10"
         android:hint="Password"
@@ -67,7 +67,7 @@
     <EditText
         android:id="@+id/etemailLogIn"
         android:layout_width="217dp"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="30dp"
         android:ems="10"
         android:hint="Email"

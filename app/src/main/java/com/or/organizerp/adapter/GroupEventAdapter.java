@@ -39,6 +39,7 @@ public class GroupEventAdapter <P> extends ArrayAdapter <GroupEvent> {
         GroupEvent temp = objects.get(position);
         tvGroupEventname.setText(temp.getName()+"");
         tvGroupEventtype.setText(temp.getType()+"");
+
         tvGroupEventdate.setText(temp.getDate()+"");
         return view;
     }

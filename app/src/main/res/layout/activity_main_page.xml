@@ -13,9 +13,11 @@
 
     <Button
         android:id="@+id/btntologin"
-        android:layout_width="271dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="104dp"
         android:background="#7BEFE6"
         android:text="Log In"
         android:textSize="30dp"
@@ -26,9 +28,11 @@
 
     <Button
         android:id="@+id/btntoregister"
-        android:layout_width="259dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="20dp"
         android:background="#7BEFE6"
         android:text="register"
         android:textSize="30dp"
@@ -39,8 +43,10 @@
 
     <Button
         android:id="@+id/btntoodot"
-        android:layout_width="267dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="72dp"
         android:layout_marginBottom="27dp"
         android:background="#7BEFE6"
         android:text="about"
@@ -52,12 +58,10 @@
 
     <TextView
         android:id="@+id/txtwelcome"
-        android:layout_width="448dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="27dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="94dp"
+        android:layout_marginBottom="56dp"
         android:fontFamily="serif"
         android:text="Welcome to ORganizer!"
         android:textAlignment="center"
@@ -71,11 +75,11 @@
 
     <ImageView
         android:id="@+id/imgwelcome"
-        android:layout_width="382dp"
-        android:layout_height="271dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="392dp"
+        android:layout_height="259dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="66dp"
         app:layout_constraintBottom_toTopOf="@+id/btntoodot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

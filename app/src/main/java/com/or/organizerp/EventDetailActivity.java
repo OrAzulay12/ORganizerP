@@ -26,6 +26,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private DatabaseService databaseService;
     private GestureDetector gestureDetector;  // For detecting double-tap gestures
     Button backHomePageButton;
+    private TextView eventTitle,eventDescription,eventDate,eventKind, eventTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +75,19 @@ public class EventDetailActivity extends AppCompatActivity {
                 selectedEvent = event;
 
                 // Assuming you have TextViews for event title, description, date, and kind of event
-                TextView eventTitle = findViewById(R.id.eventTitle);
-                TextView eventDescription = findViewById(R.id.eventDescription);
-                TextView eventDate = findViewById(R.id.eventDate);
-                TextView eventKind = findViewById(R.id.eventKind);  // New TextView for event type
+                 eventTitle = findViewById(R.id.eventTitle);
+                 eventDescription = findViewById(R.id.eventDescription);
+                 eventDate = findViewById(R.id.eventDate);
+                 eventKind = findViewById(R.id.eventKind);  // New TextView for event type
+                 eventTime=findViewById(R.id.eventTime);
 
                 if (selectedEvent != null) {
                     eventTitle.setText(selectedEvent.getName());
                     eventDescription.setText(selectedEvent.getDetails());
                     eventDate.setText(selectedEvent.getDate());
                     eventKind.setText(selectedEvent.getType());
+                    eventTime.setText(selectedEvent.getTime());
+
                 } else {
                     Toast.makeText(EventDetailActivity.this, "Event details not available", Toast.LENGTH_SHORT).show();
                 }
@@ -114,7 +118,18 @@ public class EventDetailActivity extends AppCompatActivity {
                 public void onCompleted(Void object) {
                     // Event successfully deleted, show success message and finish the activity
                     Toast.makeText(EventDetailActivity.this, "Event deleted successfully.", Toast.LENGTH_SHORT).show();
-                    finish();  // Close the activity after deleting the event
+
+                    eventTitle.setText("");
+                    eventDate.setText("");
+                    eventKind.setText("");
+                    eventTime.setText("");
+                    eventDescription.setText("");
+
+
+
+                    Intent go=new Intent(EventDetailActivity.this,HomePage.class);
+                    startActivity(go);
+                   // Close the activity after deleting the event
                 }
 
                 @Override
