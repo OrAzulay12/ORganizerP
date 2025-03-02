@@ -141,6 +141,11 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
             Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Check if at least 2 users are selected (current user + 1 more)
+        if (usersSelected.size() < 2) {
+            Toast.makeText(this, "Please select at least one more user to create the event.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Store event details in SharedPreferences (optional)
         SharedPreferences preferences = getSharedPreferences("events", Context.MODE_PRIVATE);
@@ -187,23 +192,27 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         User selectedUser = (User) parent.getItemAtPosition(position);
-      if (!selectedUser.getId().equals(user.getId())) {
-            boolean found=false;
-          for (int i = 0; i < usersSelected.size(); i++) {
-              if (usersSelected.get(i).getId().equals(selectedUser.getId())) {
 
-                  found = true;
+        // Ensure the selected user is not the current user
+        if (!selectedUser.getId().equals(user.getId())) {
+            boolean found = false;
 
-              }
-          }
-               if(!found){
-                    usersSelected.add(selectedUser);
-                 selectedAdapter.notifyDataSetChanged();
-             }
+            // Check if the user is already in the list
+            for (int i = 0; i < usersSelected.size(); i++) {
+                if (usersSelected.get(i).getId().equals(selectedUser.getId())) {
+                    found = true;
+                }
+            }
 
-       }
+            // Only allow adding if the user is not already in the list
+            if (!found) {
+                usersSelected.add(selectedUser);
+                selectedAdapter.notifyDataSetChanged();
+            }
+        }
+
+
     }
 
     @Override

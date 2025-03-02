@@ -1,6 +1,8 @@
 package com.or.organizerp.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User  implements Serializable {
     private String id;
     private String fname;
     private String lname;

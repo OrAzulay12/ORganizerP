@@ -63,7 +63,6 @@ public class DatabaseService {
     }
 
 
-
     /// callback interface for database operations
     /// @param <T> the type of the object to return
     /// @see DatabaseCallback#onCompleted(Object)
@@ -123,6 +122,19 @@ public class DatabaseService {
         });
     }
 
+
+
+    private void deleteData(@NotNull final String path, final @Nullable DatabaseCallback<Void> callback) {
+        databaseReference.child(path).removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (callback == null) return;
+                callback.onCompleted(task.getResult());
+            } else {
+                if (callback == null) return;
+                callback.onFailed(task.getException());
+            }
+        });
+    }
     /// read data from the database at a specific path
     /// @param path the path to read the data from
     /// @return a DatabaseReference object to read the data from
@@ -174,7 +186,7 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see User
-    
+
     public void createNewUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Users/" + user.getId(), user, callback);
     }
@@ -192,12 +204,29 @@ public class DatabaseService {
     }
 
     public void setEventForUsers(@NotNull final GroupEvent groupEvent, @Nullable final DatabaseCallback<Void> callback) {
-        for(int i=0;i<groupEvent.getUsers().size();i++){
-            User user= groupEvent.getUsers().get(i);
+        for (int i = 0; i < groupEvent.getUsers().size(); i++) {
+            User user = groupEvent.getUsers().get(i);
 
-            writeData("Users/" + user.getId()+"/myEvents/"+groupEvent.getId(), groupEvent, callback);
+            writeData("Users/" + user.getId() + "/myEvents/" + groupEvent.getId(), groupEvent, callback);
         }
     }
+
+
+    public void deleteEventForUser(@NotNull final GroupEvent event, String  uid, @Nullable final DatabaseCallback<Void> callback)
+
+    {
+        for (int i = 0; i < event.getUsers().size(); i++) {
+            User user = event.getUsers().get(i);
+            if (user.getId().equals(uid))
+
+                event.getUsers().remove(i);
+
+        }
+        writeData("groupEvents/" + event.getId(), event, callback);
+
+        deleteData("Users/" + uid + "/myEvents/" + event.getId(), callback);
+    }
+
 
     /// get a user from the database
     /// @param uid the id of the user to get

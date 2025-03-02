@@ -1,8 +1,9 @@
 package com.or.organizerp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GroupEvent {
+public class GroupEvent implements Serializable {
       protected String id;
 
       protected  String name;

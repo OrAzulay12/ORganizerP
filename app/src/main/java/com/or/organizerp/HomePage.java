@@ -1,6 +1,5 @@
 package com.or.organizerp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +12,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,16 +38,26 @@ public class HomePage extends AppCompatActivity {
     AuthenticationService authenticationService;
     String id;
 
-    private GroupEvent selectedEvent;  // Variable to store the selected event for deletion
+    private GroupEvent selectedEvent;
     private GestureDetector gestureDetector;
 
-    @SuppressLint("MissingInflatedId")
+    // Activity Result Launcher to handle event deletion response
+    private final ActivityResultLauncher<Intent> eventDetailLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String deletedEventId = result.getData().getStringExtra("deletedEventId");
+                    if (deletedEventId != null) {
+                        removeEventFromList(deletedEventId);
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        authenticationService=AuthenticationService.getInstance();
-        id=authenticationService.getCurrentUserId();
+        authenticationService = AuthenticationService.getInstance();
+        id = authenticationService.getCurrentUserId();
 
         databaseService = DatabaseService.getInstance();
         events = new ArrayList<>();
@@ -64,12 +75,10 @@ public class HomePage extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                // Get the position of the event where the double-tap occurred
                 int position = lvAllEvents.pointToPosition((int) e.getX(), (int) e.getY());
                 if (position != AdapterView.INVALID_POSITION) {
-                    selectedEvent = events.get(position);  // Set the selected event
+                    selectedEvent = events.get(position);
 
-                    // Show a confirmation dialog to delete the event
                     new AlertDialog.Builder(HomePage.this)
                             .setMessage("Do you really want to delete this event?")
                             .setCancelable(false)
@@ -77,12 +86,12 @@ public class HomePage extends AppCompatActivity {
                             .setNegativeButton("No", null)
                             .show();
                 }
-                return true; // Indicate that the double tap is handled
+                return true;
             }
         });
 
         // Fetch events from the database
-        databaseService.getUserEvents(id  , new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
+        databaseService.getUserEvents(id, new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
             @Override
             public void onCompleted(List<GroupEvent> object) {
                 Log.d("TAG", "onCompleted: " + object);
@@ -117,31 +126,24 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Set item click listener to show event details on single tap
-        lvAllEvents.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedEvent = events.get(position);  // Set the selected event
-
-                // Navigate to Event Detail page
-                Intent intent = new Intent(HomePage.this, EventDetailActivity.class); // Your event detail activity
-                intent.putExtra("eventId", selectedEvent.getId());  // Pass eventId to view details
-                startActivity(intent);
-            }
+        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
+            selectedEvent = events.get(position);
+            Intent intent = new Intent(HomePage.this, EventDetailActivity.class);
+            intent.putExtra("event", selectedEvent);
+            startActivity(intent); // Use ActivityResultLauncher
         });
     }
 
     // Method to delete the event from the database
     private void deleteEvent() {
         if (selectedEvent != null) {
-            String eventId = selectedEvent.getId();  // Get the selected event ID
+            String eventId = selectedEvent.getId();
 
-            // Call delete method from DatabaseService
-            databaseService.deleteGroupEvent(eventId, new DatabaseService.DatabaseCallback<Void>() {
+            databaseService.deleteEventForUser(selectedEvent,  id,new DatabaseService.DatabaseCallback<Void>() {
                 @Override
                 public void onCompleted(Void object) {
                     Toast.makeText(HomePage.this, "Event deleted successfully.", Toast.LENGTH_SHORT).show();
-                    events.remove(selectedEvent);  // Remove event from list
-                    eventAdapter.notifyDataSetChanged();  // Refresh list view
+                    removeEventFromList(eventId);
                 }
 
                 @Override
@@ -150,6 +152,17 @@ public class HomePage extends AppCompatActivity {
                     Toast.makeText(HomePage.this, "Failed to delete event.", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    // Method to remove deleted event from the list
+    private void removeEventFromList(String eventId) {
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getId().equals(eventId)) {
+                events.remove(i);
+                eventAdapter.notifyDataSetChanged();
+                break;
+            }
         }
     }
 
