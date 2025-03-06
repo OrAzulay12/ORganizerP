@@ -28,7 +28,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
-    Button backButton, logOutButton, calenderButton;
+    Button logOutButton, calenderButton;
     ListView lvAllEvents;
 
     ArrayList<GroupEvent> events;
@@ -63,7 +63,7 @@ public class HomePage extends AppCompatActivity {
         events = new ArrayList<>();
 
         // Initialize views
-        backButton = findViewById(R.id.btnBackHomePage2);
+
         calenderButton = findViewById(R.id.btncalender);
         logOutButton = findViewById(R.id.btnLogOutHomePage2);
         lvAllEvents = findViewById(R.id.lvAllEvents);
@@ -107,10 +107,7 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Back button
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, MainPage.class);
-            startActivity(intent);
-        });
+
 
         // Log out functionality
         logOutButton.setOnClickListener(v -> {

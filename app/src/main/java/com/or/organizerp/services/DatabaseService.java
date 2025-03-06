@@ -62,6 +62,24 @@ public class DatabaseService {
                 });
     }
 
+    public void getEventMembers(String eventId, DatabaseCallback<List<User>> callback) {
+        databaseReference.child("groupEvents").child(eventId).child("users").get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e(TAG, "Error getting event members", task.getException());
+                        callback.onFailed(task.getException());
+                        return;
+                    }
+
+                    List<User> members = new ArrayList<>();
+                    task.getResult().getChildren().forEach(dataSnapshot -> {
+                        User user = dataSnapshot.getValue(User.class);
+                        members.add(user);
+                    });
+
+                    callback.onCompleted(members);
+                });
+    }
 
     /// callback interface for database operations
     /// @param <T> the type of the object to return
