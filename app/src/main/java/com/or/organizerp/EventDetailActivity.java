@@ -34,7 +34,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private ListView lvShowMembersInGroup;
     private TextView eventTitle, eventDescription, eventDate, eventKind, eventTime;
     private AuthenticationService authenticationService;
-    private Button backHomePageButton;
+    private Button backHomePageButton, gotoediteventButton;
     private String uid = "";
     private Intent takeit;
 
@@ -43,6 +43,12 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_event_detail);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         databaseService = DatabaseService.getInstance();
         authenticationService = AuthenticationService.getInstance();
@@ -56,7 +62,13 @@ public class EventDetailActivity extends AppCompatActivity {
         eventKind = findViewById(R.id.eventKind);
         eventTime = findViewById(R.id.eventTime);
         lvShowMembersInGroup = findViewById(R.id.lvShowMembersInGroup);
-        backHomePageButton = findViewById(R.id.backtohomepagebtn2);
+        backHomePageButton = findViewById(R.id.btnbacktohomepagebtn2);
+        gotoediteventButton = findViewById(R.id.btnEditEvent);
+
+        if(!uid.equals(selectedEvent.getAdmin().getId())) {
+
+            gotoediteventButton.setVisibility(View.INVISIBLE);
+        }
 
         if (selectedEvent != null) {
             loadEventDetails();
@@ -76,11 +88,16 @@ public class EventDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        gotoediteventButton.setOnClickListener(v -> {
+
+            if(uid.equals(selectedEvent.getAdmin().getId())) {
+                Intent intent = new Intent(EventDetailActivity.this, EditExistingEvent.class);
+                intent.putExtra("event", selectedEvent);
+                startActivity(intent);
+            }
         });
+
+
     }
 
     private void loadEventDetails() {

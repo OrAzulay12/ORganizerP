@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B4ABE6E8"
+
+    tools:context=".EditExistingEvent">
+
+
+    <TextView
+        android:id="@+id/txtwelcomelogin2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="serif"
+        android:text="Welcome to ORganizer!"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/imglogin3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imglogin3"
+        android:layout_width="348dp"
+        android:layout_height="290dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginEnd="51dp"
+        app:layout_constraintBottom_toTopOf="@+id/etEventName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtwelcomelogin2"
+        app:srcCompat="@drawable/logoor" />
+
+    <EditText
+        android:id="@+id/etEventName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Event Name"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etEventType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin3" />
+
+    <EditText
+        android:id="@+id/etEventType"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Event Type"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etEventDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEventName" />
+
+    <EditText
+        android:id="@+id/etEventDate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Event Date"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etEventTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEventType" />
+
+    <EditText
+        android:id="@+id/etEventTime"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Event Time"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etEventDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEventDate" />
+
+    <EditText
+        android:id="@+id/etEventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="151dp"
+        android:ems="10"
+        android:hint="Event Description"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEventTime" />
+
+
+    <Button
+        android:id="@+id/btnbacktoEvent"
+        android:layout_width="123dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="76dp"
+        android:background="#7BEFE6"
+        android:text="back to event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnSaveEventChanges"
+        android:layout_width="123dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="76dp"
+        android:background="#7BEFE6"
+        android:text="save changes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

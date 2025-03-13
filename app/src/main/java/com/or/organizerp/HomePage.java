@@ -28,7 +28,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
-    Button logOutButton, calenderButton;
+    Button logOutButton, calenderButton, toChatbutton;
     ListView lvAllEvents;
 
     ArrayList<GroupEvent> events;
@@ -41,16 +41,6 @@ public class HomePage extends AppCompatActivity {
     private GroupEvent selectedEvent;
     private GestureDetector gestureDetector;
 
-    // Activity Result Launcher to handle event deletion response
-    private final ActivityResultLauncher<Intent> eventDetailLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String deletedEventId = result.getData().getStringExtra("deletedEventId");
-                    if (deletedEventId != null) {
-                        removeEventFromList(deletedEventId);
-                    }
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,33 +52,13 @@ public class HomePage extends AppCompatActivity {
         databaseService = DatabaseService.getInstance();
         events = new ArrayList<>();
 
-        // Initialize views
+        initViews();
 
-        calenderButton = findViewById(R.id.btncalender);
-        logOutButton = findViewById(R.id.btnLogOutHomePage2);
-        lvAllEvents = findViewById(R.id.lvAllEvents);
+
 
         eventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, events);
         lvAllEvents.setAdapter(eventAdapter);
 
-        // Gesture Detector to detect double taps
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                int position = lvAllEvents.pointToPosition((int) e.getX(), (int) e.getY());
-                if (position != AdapterView.INVALID_POSITION) {
-                    selectedEvent = events.get(position);
-
-                    new AlertDialog.Builder(HomePage.this)
-                            .setMessage("Do you really want to delete this event?")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", (dialog, id) -> deleteEvent())
-                            .setNegativeButton("No", null)
-                            .show();
-                }
-                return true;
-            }
-        });
 
         // Fetch events from the database
         databaseService.getUserEvents(id, new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
@@ -109,10 +79,33 @@ public class HomePage extends AppCompatActivity {
         // Back button
 
 
+
+        // Set item click listener to show event details on single tap
+        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
+            selectedEvent = events.get(position);
+            Intent intent = new Intent(HomePage.this, EventDetailActivity.class);
+            intent.putExtra("event", selectedEvent);
+            startActivity(intent); // Use ActivityResultLauncher
+        });
+    }
+
+    private void initViews() {
+
+        // Initialize views
+
+        calenderButton = findViewById(R.id.btncalender);
+        logOutButton = findViewById(R.id.btnLogOutHomePage2);
+        toChatbutton = findViewById(R.id.btnGoToChat);
+
         // Log out functionality
         logOutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomePage.this, MainPage.class);
+            startActivity(intent);
+        });
+        toChatbutton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(HomePage.this, ChatPage.class);
             startActivity(intent);
         });
 
@@ -122,12 +115,28 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Set item click listener to show event details on single tap
-        lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
-            selectedEvent = events.get(position);
-            Intent intent = new Intent(HomePage.this, EventDetailActivity.class);
-            intent.putExtra("event", selectedEvent);
-            startActivity(intent); // Use ActivityResultLauncher
+
+
+        lvAllEvents = findViewById(R.id.lvAllEvents);
+
+
+        // Gesture Detector to detect double taps
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                int position = lvAllEvents.pointToPosition((int) e.getX(), (int) e.getY());
+                if (position != AdapterView.INVALID_POSITION) {
+                    selectedEvent = events.get(position);
+
+                    new AlertDialog.Builder(HomePage.this)
+                            .setMessage("Do you really want to delete this event?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", (dialog, id) -> deleteEvent())
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+                return true;
+            }
         });
     }
 
@@ -162,6 +171,19 @@ public class HomePage extends AppCompatActivity {
             }
         }
     }
+
+
+    // Activity Result Launcher to handle event deletion response
+    private final ActivityResultLauncher<Intent> eventDetailLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String deletedEventId = result.getData().getStringExtra("deletedEventId");
+                    if (deletedEventId != null) {
+                        removeEventFromList(deletedEventId);
+                    }
+                }
+            });
+
 
     // Override onTouchEvent to detect double tap
     @Override

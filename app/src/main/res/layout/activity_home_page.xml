@@ -24,22 +24,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Logo Image -->
-
-    <!-- Back Button -->
-
-    <!-- Spinner for Event Creation -->
-
-    <!-- Log Out Button -->
-
     <ImageView
         android:id="@+id/imglogin2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +42,9 @@
         android:id="@+id/lvAllEvents"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="202dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="232dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,28 +53,39 @@
 
     <Button
         android:id="@+id/btnLogOutHomePage2"
-        android:layout_width="141dp"
-        android:layout_height="56dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="84dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="67dp"
         android:background="#7BEEE5"
         android:text="Log Out"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btncalender" />
+        app:layout_constraintStart_toEndOf="@+id/btncalender"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToChat" />
+
+    <Button
+        android:id="@+id/btnGoToChat"
+        android:layout_width="110dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="10dp"
+        android:background="#7BEEE5"
+        android:text="Chat"
+        app:layout_constraintBottom_toTopOf="@+id/btncalender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents" />
 
     <Button
         android:id="@+id/btncalender"
-        android:layout_width="145dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginEnd="52dp"
+        android:layout_width="109dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginEnd="71dp"
         android:layout_marginBottom="85dp"
         android:background="#7BEDE4"
         android:text="go to calender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnLogOutHomePage2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToChat" />
 </androidx.constraintlayout.widget.ConstraintLayout>
