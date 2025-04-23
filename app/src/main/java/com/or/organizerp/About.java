@@ -2,6 +2,8 @@ package com.or.organizerp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -35,4 +37,8 @@ public class About extends AppCompatActivity {
             startActivity(intent);
         });
 
-    }}
+    }
+
+
+
+}

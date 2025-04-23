@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.or.organizerp.adapter.GroupEventAdapter;
@@ -28,7 +31,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
-    Button logOutButton, calenderButton, toChatbutton;
+
     ListView lvAllEvents;
 
     ArrayList<GroupEvent> events;
@@ -92,29 +95,6 @@ public class HomePage extends AppCompatActivity {
     private void initViews() {
 
         // Initialize views
-
-        calenderButton = findViewById(R.id.btncalender);
-        logOutButton = findViewById(R.id.btnLogOutHomePage2);
-        toChatbutton = findViewById(R.id.btnGoToChat);
-
-        // Log out functionality
-        logOutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(HomePage.this, MainPage.class);
-            startActivity(intent);
-        });
-        toChatbutton.setOnClickListener(v -> {
-
-            Intent intent = new Intent(HomePage.this, ChatPage.class);
-            startActivity(intent);
-        });
-
-        // Navigate to Calendar
-        calenderButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, calender.class);
-            startActivity(intent);
-        });
-
 
 
         lvAllEvents = findViewById(R.id.lvAllEvents);
@@ -190,4 +170,43 @@ public class HomePage extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
     }
+
+
+
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menuitem) {
+        int itemid = menuitem.getItemId();
+        if (itemid == R.id.menuAddEvent) {
+            Intent goadmin = new Intent(HomePage.this, calender.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuLogOut) {
+            Intent goadmin = new Intent(HomePage.this, MainPage.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuManagerPage) {
+            Intent goadmin = new Intent(HomePage.this, ManagerPage.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuGoChat) {
+            Intent goadmin = new Intent(HomePage.this, ChatPage.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuAbout) {
+            Intent goadmin = new Intent(HomePage.this, About.class);
+            startActivity(goadmin);
+        }
+
+
+        return super.onOptionsItemSelected(menuitem);
+    }
+
+
+
 }

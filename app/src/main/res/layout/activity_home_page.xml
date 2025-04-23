@@ -28,9 +28,9 @@
         android:id="@+id/imglogin2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="31dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="102dp"
-        android:layout_marginEnd="31dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,48 +44,11 @@
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="232dp"
+        android:layout_marginBottom="113dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imglogin2" />
 
 
-    <Button
-        android:id="@+id/btnLogOutHomePage2"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="67dp"
-        android:background="#7BEEE5"
-        android:text="Log Out"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btncalender"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoToChat" />
-
-    <Button
-        android:id="@+id/btnGoToChat"
-        android:layout_width="110dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="10dp"
-        android:background="#7BEEE5"
-        android:text="Chat"
-        app:layout_constraintBottom_toTopOf="@+id/btncalender"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents" />
-
-    <Button
-        android:id="@+id/btncalender"
-        android:layout_width="109dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="61dp"
-        android:layout_marginEnd="71dp"
-        android:layout_marginBottom="85dp"
-        android:background="#7BEDE4"
-        android:text="go to calender"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnLogOutHomePage2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoToChat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menuAddEvent"
+        android:title="Add Event"
+        android:orderInCategory="100"
+        android:gravity="right" />
+
+
+    <item android:id="@+id/menuManagerPage"
+        android:title="Manager Page"
+        android:orderInCategory="100"
+        android:gravity="right" />
+
+    <item android:id="@+id/menuGoChat"
+        android:title="Chat"
+        android:orderInCategory="100" android:gravity="right"/>
+
+    <item android:id="@+id/menuLogOut"
+        android:orderInCategory="100"
+        android:gravity="right"
+        android:title="Log Out" />
+
+    <item android:id="@+id/menuAbout"
+        android:orderInCategory="100"
+        android:gravity="right"
+        android:title="About" />
+
+</menu>

@@ -32,12 +32,12 @@ public class calender extends AppCompatActivity implements View.OnClickListener 
         // Set the date change listener
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             // Store the selected date in milliseconds
-          selected  = new Date(year,month+1,dayOfMonth);
+            selected  = new Date(year,month+1,dayOfMonth);
 
-           stringDate=dayOfMonth + "/" + (month + 1) + "/" + year;
+            stringDate=dayOfMonth + "/" + (month + 1) + "/" + year;
 
             // Display the selected date in a toast for feedback
-         Toast.makeText(this, "Selected Date: " + dayOfMonth + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Selected Date: " + dayOfMonth + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
             Toast.makeText(this, stringDate,Toast.LENGTH_LONG).show();
         });
 
@@ -65,4 +65,5 @@ public class calender extends AppCompatActivity implements View.OnClickListener 
         }
 
     }
+
 }
