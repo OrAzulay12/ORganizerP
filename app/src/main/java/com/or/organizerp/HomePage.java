@@ -194,10 +194,7 @@ public class HomePage extends AppCompatActivity {
             Intent goadmin = new Intent(HomePage.this, ManagerPage.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuGoChat) {
-            Intent goadmin = new Intent(HomePage.this, ChatPage.class);
-            startActivity(goadmin);
-        }
+
         if (itemid == R.id.menuAbout) {
             Intent goadmin = new Intent(HomePage.this, About.class);
             startActivity(goadmin);

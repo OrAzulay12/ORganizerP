@@ -59,10 +59,7 @@ public class ChatPage extends AppCompatActivity {
             Intent goadmin = new Intent(ChatPage.this, ManagerPage.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuGoChat) {
-            Intent goadmin = new Intent(ChatPage.this, ChatPage.class);
-            startActivity(goadmin);
-        }
+
         if (itemid == R.id.menuAbout) {
             Intent goadmin = new Intent(ChatPage.this, About.class);
             startActivity(goadmin);

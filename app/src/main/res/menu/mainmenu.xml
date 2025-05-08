@@ -12,10 +12,6 @@
         android:orderInCategory="100"
         android:gravity="right" />
 
-    <item android:id="@+id/menuGoChat"
-        android:title="Chat"
-        android:orderInCategory="100" android:gravity="right"/>
-
     <item android:id="@+id/menuLogOut"
         android:orderInCategory="100"
         android:gravity="right"

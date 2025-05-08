@@ -21,11 +21,9 @@ import com.or.organizerp.model.User;
 import com.or.organizerp.services.DatabaseService;
 import com.or.organizerp.utils.SharedPreferencesUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class createnewevent extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -42,6 +40,8 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
 
     private String selectedDateInMillis;  // To hold the selected date in milliseconds
     private User user=null;
+    private View btnAddMedicnNoti;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,4 +226,5 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
 
         return false;
     }
-}
+
+           }

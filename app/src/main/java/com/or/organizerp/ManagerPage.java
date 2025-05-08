@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.or.organizerp.adapter.UserNamAdapter;
 
 public class ManagerPage extends AppCompatActivity {
 
@@ -24,6 +27,13 @@ public class ManagerPage extends AppCompatActivity {
             return insets;
         });
     }
+    private ListView lvallMembersM;
+    private void initViews() {
+
+        lvallMembersM = findViewById(R.id.lvEditAllMembers);
+
+    }
+
 
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -46,10 +56,7 @@ public class ManagerPage extends AppCompatActivity {
             Intent goadmin = new Intent(ManagerPage.this, ManagerPage.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuGoChat) {
-            Intent goadmin = new Intent(ManagerPage.this, ChatPage.class);
-            startActivity(goadmin);
-        }
+
         if (itemid == R.id.menuAbout) {
             Intent goadmin = new Intent(ManagerPage.this, About.class);
             startActivity(goadmin);

@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainPage extends AppCompatActivity {
 
-    Button loginButton, registerButton, odotButton;
+    Button loginButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,6 @@ public class MainPage extends AppCompatActivity {
         // Initialize buttons
         loginButton = findViewById(R.id.btntologin);
         registerButton = findViewById(R.id.btntoregister);
-        odotButton = findViewById(R.id.btntoodot);
 
         // Handle window insets for edge-to-edge layout
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -35,7 +34,6 @@ public class MainPage extends AppCompatActivity {
         // Set click listeners for buttons
         loginButton.setOnClickListener(v -> openLoginPage());
         registerButton.setOnClickListener(v -> openRegisterPage());
-        odotButton.setOnClickListener(v -> openAboutPage());
     }
 
     // Navigate to the Login Page (ensure LoginActivity is correctly referenced)

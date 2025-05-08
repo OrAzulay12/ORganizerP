@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class About extends AppCompatActivity {
 
-    Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +27,40 @@ public class About extends AppCompatActivity {
         });
 
 
-        backButton = findViewById(R.id.btnBack);    // Initialize the back button
 
-        // Set onClickListener for backButton
-        backButton.setOnClickListener(v -> {
-            // Go back to the previous screen (e.g., Register activity)
-            Intent intent = new Intent(About.this, MainPage.class);
-            startActivity(intent);
-        });
+    }
 
+
+
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menuitem) {
+        int itemid = menuitem.getItemId();
+        if (itemid == R.id.menuAddEvent) {
+            Intent goadmin = new Intent(About.this, calender.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuLogOut) {
+            Intent goadmin = new Intent(About.this, MainPage.class);
+            startActivity(goadmin);
+        }
+        if (itemid == R.id.menuManagerPage) {
+            Intent goadmin = new Intent(About.this, ManagerPage.class);
+            startActivity(goadmin);
+        }
+
+        if (itemid == R.id.menuAbout) {
+            Intent goadmin = new Intent(About.this, About.class);
+            startActivity(goadmin);
+        }
+
+
+        return super.onOptionsItemSelected(menuitem);
     }
 
 
