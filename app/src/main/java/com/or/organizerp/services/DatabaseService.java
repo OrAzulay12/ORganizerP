@@ -81,6 +81,8 @@ public class DatabaseService {
                 });
     }
 
+
+
     /// callback interface for database operations
     /// @param <T> the type of the object to return
     /// @see DatabaseCallback#onCompleted(Object)
@@ -219,6 +221,11 @@ public class DatabaseService {
     /// @see GroupEvent
     public void createNewGroupEvent(@NotNull final GroupEvent groupEvent, @Nullable final DatabaseCallback<Void> callback) {
         writeData("groupEvents/" + groupEvent.getId(), groupEvent, callback);
+        for (int i = 0; i < groupEvent.getUsers().size(); i++) {
+            User user = groupEvent.getUsers().get(i);
+
+            writeData("Users/" + user.getId() + "/myEvents/" + groupEvent.getId(), groupEvent, callback);
+        }
     }
 
     public void setEventForUsers(@NotNull final GroupEvent groupEvent, @Nullable final DatabaseCallback<Void> callback) {
@@ -357,8 +364,14 @@ public class DatabaseService {
             List<GroupEvent> groupEvents = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 GroupEvent groupEvent = dataSnapshot.getValue(GroupEvent.class);
+
+
+
                 Log.d(TAG, "Got groupEvent: " + groupEvent);
                 groupEvents.add(groupEvent);
+
+
+
             });
 
             callback.onCompleted(groupEvents);

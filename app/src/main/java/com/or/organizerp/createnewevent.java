@@ -167,17 +167,7 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
             public void onCompleted(Void object) {
                 Toast.makeText(createnewevent.this, "Event created successfully", Toast.LENGTH_SHORT).show();
 
-                databaseService.setEventForUsers(groupEvent, new DatabaseService.DatabaseCallback<Void>() {
-                    @Override
-                    public void onCompleted(Void object) {
-                        Toast.makeText(createnewevent.this, "EventUser  created successfully", Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onFailed(Exception e) {
-
-                    }
-                });
 
                 Intent intent = new Intent(createnewevent.this, HomePage.class);
                 startActivity(intent);

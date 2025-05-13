@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button loginButton, backButton;
 
 
-    String admin = "idosshati@gmail.com";
-    public static Boolean isAdmin=false;
+    String admin = "Or123@gmail.com";
+
 
 
 private static final String TAG = "loginToFireBase";
@@ -59,6 +59,7 @@ private static final String TAG = "loginToFireBase";
 
     private FirebaseDatabase database;
     private DatabaseReference myRef, farmerRef;
+  public  static   boolean isAdmin=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ private static final String TAG = "loginToFireBase";
         etPass2 = findViewById(R.id.etPasswordLogIn);
         backButton = findViewById(R.id.btnBackLogin);
 
+
         backButton.setOnClickListener(v -> {
             // Go back to the previous screen (e.g., Register activity)
             Intent intent = new Intent(LoginActivity.this, MainPage.class);
@@ -110,6 +112,7 @@ private static final String TAG = "loginToFireBase";
     public void onClick(View v) {
         email2 = etEmail2.getText().toString();
         pass2 = etPass2.getText().toString();
+
 
         loginUser(email2,pass2);
 
@@ -136,8 +139,20 @@ public void onCompleted(String uid) {
                 Log.d(TAG, "onCompleted: User data retrieved successfully");
                 /// save the user data to shared preferences
                    SharedPreferencesUtil.saveUser(LoginActivity.this, user);
-               /// Redirect to main activity and clear back stack to prevent user from going back to login screen
-               Intent mainIntent = new Intent(LoginActivity.this, HomePage  .class);
+            /// Redirect to main activity and clear back stack to prevent user from going back to login screen
+            Intent mainIntent = new Intent(LoginActivity.this, HomePage .class);
+
+                   if(email.equals("Or123@gmail.com")&&(pass2.equals("1234567")))
+            {
+                isAdmin=true;
+                /// Redirect to main activity and clear back stack to prevent user from going back to login screen
+              mainIntent = new Intent(LoginActivity.this, ManagerPage.class);
+
+
+            }
+
+
+
                 /// Clear the back stack (clear history) and start the MainActivity
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);

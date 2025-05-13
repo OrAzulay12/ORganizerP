@@ -96,30 +96,25 @@ public class EditExistingEvent extends AppCompatActivity implements AdapterView.
                     @Override
                     public void onCompleted(Void object) {
                         Toast.makeText(EditExistingEvent.this, "Event updated successfully", Toast.LENGTH_SHORT).show();
+                        Intent goadmin = new Intent(EditExistingEvent.this, HomePage.class);
+                        startActivity(goadmin);
 
-                        databaseService.setEventForUsers(selectedEvent, new DatabaseService.DatabaseCallback<Void>() {
-                            @Override
-                            public void onCompleted(Void object) {
-                                Toast.makeText(EditExistingEvent.this, "EventUser updated successfully", Toast.LENGTH_SHORT).show();
-                            }
 
-                            @Override
-                            public void onFailed(Exception e) {
-                                Toast.makeText(EditExistingEvent.this, "Failed to update event users", Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
 
                     @Override
                     public void onFailed(Exception e) {
                         Toast.makeText(EditExistingEvent.this, "Failed to update event", Toast.LENGTH_SHORT).show();
                     }
+
+
+
                 });
             }
         });
 
         buttonbacktoEvent.setOnClickListener(v -> {
-            Intent intent = new Intent(EditExistingEvent.this, EventDetailActivity.class);
+            Intent intent = new Intent(EditExistingEvent.this, HomePage.class);
             startActivity(intent);
         });
 

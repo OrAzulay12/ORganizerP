@@ -65,8 +65,7 @@ public class EventDetailActivity extends AppCompatActivity {
         backHomePageButton = findViewById(R.id.btnbacktohomepagebtn2);
         gotoediteventButton = findViewById(R.id.btnEditEvent);
 
-        if(!uid.equals(selectedEvent.getAdmin().getId())) {
-
+        if (!uid.equals(selectedEvent.getAdmin().getId())) {
             gotoediteventButton.setVisibility(View.INVISIBLE);
         }
 
@@ -89,15 +88,12 @@ public class EventDetailActivity extends AppCompatActivity {
         });
 
         gotoediteventButton.setOnClickListener(v -> {
-
-            if(uid.equals(selectedEvent.getAdmin().getId())) {
+            if (uid.equals(selectedEvent.getAdmin().getId())) {
                 Intent intent = new Intent(EventDetailActivity.this, EditExistingEvent.class);
                 intent.putExtra("event", selectedEvent);
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void loadEventDetails() {
@@ -143,18 +139,47 @@ public class EventDetailActivity extends AppCompatActivity {
 
     private void deleteEvent(String uid, GroupEvent selectedEvent) {
         if (selectedEvent != null) {
-            databaseService.deleteEventForUser(selectedEvent, uid, new DatabaseService.DatabaseCallback<Void>() {
+            // First, delete the event for all users
+            databaseService.getEventMembers(selectedEvent.getId(), new DatabaseService.DatabaseCallback<List<User>>() {
                 @Override
-                public void onCompleted(Void object) {
-                    Toast.makeText(EventDetailActivity.this, "Event deleted successfully.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EventDetailActivity.this, HomePage.class);
-                    startActivity(intent);
+                public void onCompleted(List<User> users) {
+                    if (users != null) {
+                        for (User user : users) {
+                            // Assuming a method to delete an event for each user exists
+                            databaseService.deleteEventForUser(selectedEvent, user.getId(), new DatabaseService.DatabaseCallback<Void>() {
+                                @Override
+                                public void onCompleted(Void object) {
+                                    // Optionally, track how many users' events have been deleted
+                                }
+
+                                @Override
+                                public void onFailed(Exception e) {
+                                    Log.e("EventDetailActivity", "Failed to delete event for user: " + user.getId(), e);
+                                }
+                            });
+                        }
+                    }
+                    // After deleting event for all users, delete the event from the creator's account
+                    databaseService.deleteEventForUser(selectedEvent, uid, new DatabaseService.DatabaseCallback<Void>() {
+                        @Override
+                        public void onCompleted(Void object) {
+                            Toast.makeText(EventDetailActivity.this, "Event deleted successfully for all users.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EventDetailActivity.this, HomePage.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+                            Log.e("EventDetailActivity", "Failed to delete event for creator", e);
+                            Toast.makeText(EventDetailActivity.this, "Failed to delete event for creator.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
                 public void onFailed(Exception e) {
-                    Log.e("EventDetailActivity", "Failed to delete event", e);
-                    Toast.makeText(EventDetailActivity.this, "Failed to delete event.", Toast.LENGTH_SHORT).show();
+                    Log.e("EventDetailActivity", "Failed to load event members", e);
+                    Toast.makeText(EventDetailActivity.this, "Failed to load members.", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

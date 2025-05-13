@@ -15,27 +15,27 @@
         android:id="@+id/btntologin"
         android:layout_width="250dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="37dp"
         android:background="#7BEFE6"
         android:text="Log In"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btntoregister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btntoregister" />
+        app:layout_constraintTop_toBottomOf="@+id/imgwelcome" />
 
     <Button
         android:id="@+id/btntoregister"
         android:layout_width="250dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="85dp"
         android:background="#7BEFE6"
         android:text="register"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btntologin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgwelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/btntologin" />
 
     <TextView
         android:id="@+id/txtwelcome"
@@ -56,12 +56,10 @@
 
     <ImageView
         android:id="@+id/imgwelcome"
-        android:layout_width="414dp"
-        android:layout_height="270dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="123dp"
-        app:layout_constraintBottom_toTopOf="@+id/btntoregister"
+        android:layout_width="418dp"
+        android:layout_height="214dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toTopOf="@+id/btntologin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtwelcome"

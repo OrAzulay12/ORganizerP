@@ -9,28 +9,106 @@
     android:gravity="center"
     tools:context=".ManagerPage">
 
-    <ListView
-        android:id="@+id/lvEditAllMembersM"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="163dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+    <!-- ImageView for Logo -->
+
+    <!-- Spinner for Event Type Filter -->
+
+    <!-- Spinner for User Filter -->
+
+    <!-- SearchView for User Search -->
+
+    <!-- TextView for Events Section -->
+
+    <!-- ListView for Events -->
 
     <ImageView
         android:id="@+id/imglogin"
-        android:layout_width="178dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginBottom="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/lvEditAllMembersM"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="38dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerEventType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logoor" />
+
+    <Spinner
+        android:id="@+id/spinnerEventType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvEventsTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewUser"
+        android:layout_width="181dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="12dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Users"
+        app:layout_constraintBottom_toTopOf="@+id/lvAllUsers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvUsersTitle"
+        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents" />
+
+    <TextView
+        android:id="@+id/tvEventsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="All Events"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerEventType" />
+
+    <!-- TextView for Users Section -->
+
+    <!-- ListView for Users -->
+
+    <ListView
+        android:id="@+id/lvAllEvents"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="95dp"
+        app:layout_constraintBottom_toTopOf="@+id/searchViewUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEventsTitle" />
+
+    <TextView
+        android:id="@+id/tvUsersTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="8dp"
+        android:text="All Users"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/searchViewUser"
+        app:layout_constraintEnd_toStartOf="@+id/searchViewUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchViewUser" />
+
+    <ListView
+        android:id="@+id/lvAllUsers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewUser" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

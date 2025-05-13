@@ -34,6 +34,10 @@ public class About extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        if(!LoginActivity.isAdmin){
+            menu.removeItem(R.id.menuManagerPage);
+
+        }
 
 
         return true;
@@ -42,7 +46,7 @@ public class About extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuitem) {
         int itemid = menuitem.getItemId();
         if (itemid == R.id.menuAddEvent) {
-            Intent goadmin = new Intent(About.this, calender.class);
+            Intent goadmin = new Intent(About.this,calender.class);
             startActivity(goadmin);
         }
         if (itemid == R.id.menuLogOut) {
@@ -58,7 +62,15 @@ public class About extends AppCompatActivity {
             Intent goadmin = new Intent(About.this, About.class);
             startActivity(goadmin);
         }
+        if (itemid == R.id.menuManagerPage) {
 
+            if(LoginActivity.isAdmin){
+                Intent goadmin = new Intent(About.this, ManagerPage.class);
+                startActivity(goadmin);
+
+            }
+
+        }
 
         return super.onOptionsItemSelected(menuitem);
     }

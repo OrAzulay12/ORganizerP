@@ -174,7 +174,12 @@ public class HomePage extends AppCompatActivity {
 
 
     public boolean onCreateOptionsMenu (Menu menu){
+
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        if(!LoginActivity.isAdmin){
+            menu.removeItem(R.id.menuManagerPage);
+
+        }
 
 
         return true;
@@ -182,6 +187,10 @@ public class HomePage extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem menuitem) {
         int itemid = menuitem.getItemId();
+
+
+
+
         if (itemid == R.id.menuAddEvent) {
             Intent goadmin = new Intent(HomePage.this, calender.class);
             startActivity(goadmin);
@@ -190,9 +199,18 @@ public class HomePage extends AppCompatActivity {
             Intent goadmin = new Intent(HomePage.this, MainPage.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuManagerPage) {
-            Intent goadmin = new Intent(HomePage.this, ManagerPage.class);
+        if (itemid == R.id.menuHomePage) {
+            Intent goadmin = new Intent(HomePage.this, HomePage.class);
             startActivity(goadmin);
+        }
+        if (itemid == R.id.menuManagerPage) {
+
+            if(LoginActivity.isAdmin){
+                Intent goadmin = new Intent(HomePage.this, ManagerPage.class);
+                startActivity(goadmin);
+
+            }
+
         }
 
         if (itemid == R.id.menuAbout) {
