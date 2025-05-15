@@ -86,7 +86,7 @@ public class ManagerPage extends AppCompatActivity implements AdapterView.OnItem
 
         // Set up the spinner for event type
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
-                this, R.array.ArryEventType, android.R.layout.simple_spinner_item);
+                this, R.array.ArryEventTypeManager, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter2);
 

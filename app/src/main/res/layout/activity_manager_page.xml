@@ -24,12 +24,10 @@
     <ImageView
         android:id="@+id/imglogin"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="115dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="17dp"
-        android:layout_marginBottom="38dp"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerEventType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,51 +37,49 @@
         android:id="@+id/spinnerEventType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginBottom="37dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvEventsTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+        android:layout_marginStart="41dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
+        app:layout_constraintStart_toEndOf="@+id/tvEventsTitle" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchViewUser"
-        android:layout_width="181dp"
+        android:layout_width="0dp"
         android:layout_height="58dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="182dp"
         android:iconifiedByDefault="false"
         android:queryHint="Search Users"
-        app:layout_constraintBottom_toTopOf="@+id/lvAllUsers"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvUsersTitle"
-        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents" />
+        app:layout_constraintStart_toEndOf="@+id/tvUsersTitle" />
+
+    <!-- TextView for Users Section -->
+
+    <!-- ListView for Users -->
 
     <TextView
         android:id="@+id/tvEventsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="59dp"
         android:text="All Events"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerEventType" />
-
-    <!-- TextView for Users Section -->
-
-    <!-- ListView for Users -->
+        app:layout_constraintTop_toBottomOf="@+id/txtmanager" />
 
     <ListView
         android:id="@+id/lvAllEvents"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="95dp"
-        app:layout_constraintBottom_toTopOf="@+id/searchViewUser"
+        android:layout_height="114dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="49dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvUsersTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEventsTitle" />
+        app:layout_constraintTop_toTopOf="@+id/tvEventsTitle" />
 
     <TextView
         android:id="@+id/tvUsersTitle"
@@ -91,7 +87,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="29dp"
         android:layout_marginBottom="8dp"
         android:text="All Users"
         android:textSize="18sp"
@@ -104,11 +100,27 @@
     <ListView
         android:id="@+id/lvAllUsers"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="56dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginBottom="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewUser" />
+        app:layout_constraintTop_toTopOf="@+id/tvUsersTitle" />
+
+    <TextView
+        android:id="@+id/txtmanager"
+        android:layout_width="242dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:text="Manager Page"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
