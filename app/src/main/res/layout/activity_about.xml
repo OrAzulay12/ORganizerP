@@ -10,41 +10,22 @@
 
   <TextView
       android:id="@+id/txtwelcomelogin"
-      android:layout_width="213dp"
-      android:layout_height="0dp"
-      android:layout_marginStart="84dp"
+      android:layout_width="249dp"
+      android:layout_height="88dp"
       android:fontFamily="serif"
       android:text="An app maded by Or A"
       android:textAlignment="center"
       android:textColor="@color/black"
       android:textSize="25sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/imglogin" />
+      tools:layout_editor_absoluteX="99dp"
+      tools:layout_editor_absoluteY="209dp" />
 
   <ImageView
       android:id="@+id/imglogin"
-      android:layout_width="197dp"
-      android:layout_height="184dp"
-      android:layout_marginBottom="68dp"
-      app:layout_constraintBottom_toTopOf="@+id/txtwelcomelogin"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtabout"
-      app:srcCompat="@drawable/logoor" />
-
-  <TextView
-      android:id="@+id/txtabout"
-      android:layout_width="198dp"
-      android:layout_height="98dp"
-      android:layout_marginTop="67dp"
-      android:layout_marginBottom="17dp"
-      android:fontFamily="serif"
-      android:text="Welcome to ORganizer!"
-      android:textColor="@color/black"
-      android:textSize="15sp"
-      app:layout_constraintBottom_toTopOf="@+id/imglogin"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      android:layout_width="181dp"
+      android:layout_height="154dp"
+      app:srcCompat="@drawable/logoor"
+      tools:layout_editor_absoluteX="116dp"
+      tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
