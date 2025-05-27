@@ -2,6 +2,7 @@ package com.or.organizerp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,8 +22,13 @@ import com.or.organizerp.model.GroupEvent;
 import com.or.organizerp.model.User;
 import com.or.organizerp.services.DatabaseService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class EditExistingEvent extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
@@ -72,53 +78,60 @@ public class EditExistingEvent extends AppCompatActivity implements AdapterView.
         buttonbacktoEvent = findViewById(R.id.btnbacktoEvent);
         buttonsaveeventchanges = findViewById(R.id.btnSaveEventChanges);
 
-        buttonsaveeventchanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Ensure at least 2 users are selected (event creator + one more)
-                if (members.size() < 2) {
-                    Toast.makeText(EditExistingEvent.this, "Please select at least one more user to save the event.", Toast.LENGTH_SHORT).show();
-                    return;
+        buttonsaveeventchanges.setOnClickListener(v -> {
+            if (members.size() < 2) {
+                Toast.makeText(EditExistingEvent.this, "Please select at least one more user to save the event.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String eventName = etEventName.getText().toString().trim();
+            String eventDescription = etEventDescription.getText().toString().trim();
+            String eventDate = etEventDate.getText().toString().trim();
+            String eventTime = etEventTime.getText().toString().trim();
+
+            if (!isValidDate(eventDate) || !isValidTime(eventTime)) {
+                Toast.makeText(EditExistingEvent.this, "Invalid date or time format.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Check if combined date and time is in the past
+            if (isDateTimeInPast(eventDate, eventTime)) {
+                Toast.makeText(EditExistingEvent.this, "You cannot select a past date/time.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String fullDateTime = eventDate + " " + eventTime;
+
+            selectedEvent.setName(eventName);
+            selectedEvent.setDate(fullDateTime);  // Save both date and time here
+            selectedEvent.setDetails(eventDescription);
+            selectedEvent.setUsers(members);
+
+            databaseService.createNewGroupEvent(selectedEvent, new DatabaseService.DatabaseCallback<Void>() {
+                @Override
+                public void onCompleted(Void object) {
+                    Toast.makeText(EditExistingEvent.this, "Event updated successfully", Toast.LENGTH_SHORT).show();
+                    Intent goadmin = new Intent(EditExistingEvent.this, HomePage.class);
+                    goadmin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(goadmin);
+                    finish();
                 }
 
-                String eventName = etEventName.getText().toString().trim();
-                String eventDescription = etEventDescription.getText().toString().trim();
-                String eventDate = etEventDate.getText().toString().trim();
-                String eventTime = etEventTime.getText().toString().trim();
-
-                selectedEvent.setName(eventName);
-                selectedEvent.setDate(eventDate);
-                selectedEvent.setDetails(eventDescription);
-                selectedEvent.setTime(eventTime);
-                selectedEvent.setUsers(members);
-
-                databaseService.createNewGroupEvent(selectedEvent, new DatabaseService.DatabaseCallback<Void>() {
-                    @Override
-                    public void onCompleted(Void object) {
-                        Toast.makeText(EditExistingEvent.this, "Event updated successfully", Toast.LENGTH_SHORT).show();
-                        Intent goadmin = new Intent(EditExistingEvent.this, HomePage.class);
-                        startActivity(goadmin);
-
-
-                    }
-
-                    @Override
-                    public void onFailed(Exception e) {
-                        Toast.makeText(EditExistingEvent.this, "Failed to update event", Toast.LENGTH_SHORT).show();
-                    }
-
-
-
-                });
-            }
+                @Override
+                public void onFailed(Exception e) {
+                    Toast.makeText(EditExistingEvent.this, "Failed to update event", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         buttonbacktoEvent.setOnClickListener(v -> {
             Intent intent = new Intent(EditExistingEvent.this, HomePage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         });
 
-        adapterMembers = new UserNamAdapter(EditExistingEvent.this, 0, 0, members);
+        adapterMembers = new UserNamAdapter<>(EditExistingEvent.this, 0, 0, members);
         lvShowMembersInGroup.setAdapter(adapterMembers);
         lvShowMembersInGroup.setOnItemLongClickListener(this);
 
@@ -131,8 +144,16 @@ public class EditExistingEvent extends AppCompatActivity implements AdapterView.
         if (selectedEvent != null) {
             etEventName.setText(selectedEvent.getName());
             etEventDescription.setText(selectedEvent.getDetails());
-            etEventDate.setText(selectedEvent.getDate());
-            etEventTime.setText(selectedEvent.getTime());
+
+            // Split full date into date and time fields
+            String fullDateTime = selectedEvent.getDate();
+            if (fullDateTime != null && fullDateTime.contains(" ")) {
+                String[] parts = fullDateTime.split(" ");
+                etEventDate.setText(parts[0]);
+                etEventTime.setText(parts.length > 1 ? parts[1] : "");
+            } else {
+                etEventDate.setText(fullDateTime);
+            }
         } else {
             Toast.makeText(EditExistingEvent.this, "Event details not available", Toast.LENGTH_SHORT).show();
         }
@@ -167,6 +188,41 @@ public class EditExistingEvent extends AppCompatActivity implements AdapterView.
                 e.printStackTrace();
             }
         });
+    }
+
+    private boolean isValidDate(String date) {
+        if (!Pattern.matches("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$", date)) return false;
+        try {
+            new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isValidTime(String time) {
+        if (!Pattern.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$", time)) return false;
+        try {
+            new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(time);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    // New method to check if the combined date and time is in the past
+    private boolean isDateTimeInPast(String date, String time) {
+        try {
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            Date eventDateTime = dateTimeFormat.parse(date + " " + time);
+
+            Date now = new Date();
+
+            return eventDateTime.before(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // treat as valid if parsing fails
+        }
     }
 
     @Override

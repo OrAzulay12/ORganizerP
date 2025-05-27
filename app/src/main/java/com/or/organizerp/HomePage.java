@@ -7,35 +7,36 @@ import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.or.organizerp.adapter.GroupEventAdapter;
 import com.or.organizerp.model.GroupEvent;
 import com.or.organizerp.services.AuthenticationService;
 import com.or.organizerp.services.DatabaseService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomePage extends AppCompatActivity {
 
-
     ListView lvAllEvents;
+    ListView lvOldEvents;
 
-    ArrayList<GroupEvent> events;
+    ArrayList<GroupEvent> events;       // upcoming & today events (all events with date today or later)
+    ArrayList<GroupEvent> oldEvents;    // past events (date before today)
+
     GroupEventAdapter<GroupEvent> eventAdapter;
+    GroupEventAdapter<GroupEvent> oldEventAdapter;
 
     private DatabaseService databaseService;
     AuthenticationService authenticationService;
@@ -44,33 +45,65 @@ public class HomePage extends AppCompatActivity {
     private GroupEvent selectedEvent;
     private GestureDetector gestureDetector;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
         authenticationService = AuthenticationService.getInstance();
         id = authenticationService.getCurrentUserId();
 
         databaseService = DatabaseService.getInstance();
+
         events = new ArrayList<>();
+        oldEvents = new ArrayList<>();
 
         initViews();
-
-
 
         eventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, events);
         lvAllEvents.setAdapter(eventAdapter);
 
+        oldEventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, oldEvents);
+        lvOldEvents.setAdapter(oldEventAdapter);
 
-        // Fetch events from the database
         databaseService.getUserEvents(id, new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
             @Override
             public void onCompleted(List<GroupEvent> object) {
                 Log.d("TAG", "onCompleted: " + object);
                 events.clear();
-                events.addAll(object);
+                oldEvents.clear();
+
+                SimpleDateFormat fullFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                long nowMillis = System.currentTimeMillis();
+                String todayStr = dateOnlyFormat.format(nowMillis);
+
+                for (GroupEvent event : object) {
+                    try {
+                        // Parse full date+time
+                        long eventMillis = fullFormat.parse(event.getDate()).getTime();
+
+                        // Extract date only (no time) for event
+                        String eventDayStr = dateOnlyFormat.format(eventMillis);
+
+                        // Compare dates (only date, ignoring time)
+                        if (eventDayStr.compareTo(todayStr) < 0) {
+                            // Event date before today -> oldEvents
+                            oldEvents.add(event);
+                        } else {
+                            // Event date is today or after today -> upcoming/events list
+                            events.add(event);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // On parse error, add to upcoming by default
+                        events.add(event);
+                    }
+                }
+
                 eventAdapter.notifyDataSetChanged();
+                oldEventAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -79,28 +112,25 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        // Back button
-
-
-
-        // Set item click listener to show event details on single tap
         lvAllEvents.setOnItemClickListener((parent, view, position, id) -> {
             selectedEvent = events.get(position);
             Intent intent = new Intent(HomePage.this, EventDetailActivity.class);
             intent.putExtra("event", selectedEvent);
-            startActivity(intent); // Use ActivityResultLauncher
+            startActivity(intent);
+        });
+
+        lvOldEvents.setOnItemClickListener((parent, view, position, id) -> {
+            selectedEvent = oldEvents.get(position);
+            Intent intent = new Intent(HomePage.this, EventDetailActivity.class);
+            intent.putExtra("event", selectedEvent);
+            startActivity(intent);
         });
     }
 
     private void initViews() {
-
-        // Initialize views
-
-
         lvAllEvents = findViewById(R.id.lvAllEvents);
+        lvOldEvents = findViewById(R.id.lvOldEvents);
 
-
-        // Gesture Detector to detect double taps
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
@@ -120,12 +150,11 @@ public class HomePage extends AppCompatActivity {
         });
     }
 
-    // Method to delete the event from the database
     private void deleteEvent() {
         if (selectedEvent != null) {
             String eventId = selectedEvent.getId();
 
-            databaseService.deleteEventForUser(selectedEvent,  id,new DatabaseService.DatabaseCallback<Void>() {
+            databaseService.deleteEventForUser(selectedEvent, id, new DatabaseService.DatabaseCallback<Void>() {
                 @Override
                 public void onCompleted(Void object) {
                     Toast.makeText(HomePage.this, "Event deleted successfully.", Toast.LENGTH_SHORT).show();
@@ -141,19 +170,23 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    // Method to remove deleted event from the list
     private void removeEventFromList(String eventId) {
         for (int i = 0; i < events.size(); i++) {
             if (events.get(i).getId().equals(eventId)) {
                 events.remove(i);
                 eventAdapter.notifyDataSetChanged();
-                break;
+                return;
+            }
+        }
+        for (int i = 0; i < oldEvents.size(); i++) {
+            if (oldEvents.get(i).getId().equals(eventId)) {
+                oldEvents.remove(i);
+                oldEventAdapter.notifyDataSetChanged();
+                return;
             }
         }
     }
 
-
-    // Activity Result Launcher to handle event deletion response
     private final ActivityResultLauncher<Intent> eventDetailLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
@@ -164,64 +197,40 @@ public class HomePage extends AppCompatActivity {
                 }
             });
 
-
-    // Override onTouchEvent to detect double tap
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
     }
 
-
-
-    public boolean onCreateOptionsMenu (Menu menu){
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
-        if(!LoginActivity.isAdmin){
+        if (!LoginActivity.isAdmin) {
             menu.removeItem(R.id.menuManagerPage);
-
         }
-
-
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuitem) {
         int itemid = menuitem.getItemId();
 
-
-
-
         if (itemid == R.id.menuAddEvent) {
-            Intent goadmin = new Intent(HomePage.this, calender.class);
-            startActivity(goadmin);
+            startActivity(new Intent(HomePage.this, calender.class));
         }
         if (itemid == R.id.menuLogOut) {
-            Intent goadmin = new Intent(HomePage.this, MainPage.class);
-            startActivity(goadmin);
+            startActivity(new Intent(HomePage.this, MainPage.class));
         }
         if (itemid == R.id.menuHomePage) {
-            Intent goadmin = new Intent(HomePage.this, HomePage.class);
-            startActivity(goadmin);
+            startActivity(new Intent(HomePage.this, HomePage.class));
         }
-        if (itemid == R.id.menuManagerPage) {
-
-            if(LoginActivity.isAdmin){
-                Intent goadmin = new Intent(HomePage.this, ManagerPage.class);
-                startActivity(goadmin);
-
-            }
-
+        if (itemid == R.id.menuManagerPage && LoginActivity.isAdmin) {
+            startActivity(new Intent(HomePage.this, ManagerPage.class));
         }
-
         if (itemid == R.id.menuAbout) {
-            Intent goadmin = new Intent(HomePage.this, About.class);
-            startActivity(goadmin);
+            startActivity(new Intent(HomePage.this, About.class));
         }
-
 
         return super.onOptionsItemSelected(menuitem);
     }
-
-
-
 }

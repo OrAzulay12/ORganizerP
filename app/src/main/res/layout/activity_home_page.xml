@@ -10,30 +10,17 @@
     tools:context=".HomePage">
 
     <!-- Welcome Text -->
-    <TextView
-        android:id="@+id/txtwelcomelogin2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="161dp"
-        android:fontFamily="serif"
-        android:text="Welcome to ORganizer!"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imglogin2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="102dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
+        android:layout_width="380dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtCurrentevents"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logoor" />
@@ -42,13 +29,47 @@
         android:id="@+id/lvAllEvents"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="113dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtOldevents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCurrentevents" />
+
+    <TextView
+        android:id="@+id/txtCurrentevents"
+        android:layout_width="180dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="1dp"
+        android:text="Upcoming Events:"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/lvAllEvents"
+        app:layout_constraintStart_toStartOf="@+id/lvAllEvents"
+        app:layout_constraintTop_toBottomOf="@+id/imglogin2" />
+
+    <TextView
+        android:id="@+id/txtOldevents"
+        android:layout_width="193dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:text="Old Events:"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvAllEvents" />
+
+    <ListView
+        android:id="@+id/lvOldEvents"
+        android:layout_width="404dp"
+        android:layout_height="176dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="42dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imglogin2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOldevents" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,22 +10,46 @@
 
   <TextView
       android:id="@+id/txtwelcomelogin"
-      android:layout_width="249dp"
-      android:layout_height="88dp"
+      android:layout_width="385dp"
+      android:layout_height="594dp"
+      android:layout_marginStart="15dp"
+      android:layout_marginEnd="15dp"
+      android:layout_marginBottom="45dp"
       android:fontFamily="serif"
-      android:text="An app maded by Or A"
-      android:textAlignment="center"
+      android:gravity="start"
+      android:layoutDirection="rtl"
+      android:text="הוראות שימוש באפליקציה\nבצד ימין למעלה תוכלו למצוא תפריט.\nAdd event - להוספת אירוע לחצו על הכפתור ובחרו תאריך מהיומן.\nלאחר מכן לחצו על add event או אם התחרטתם על back to homepage.\nמלאו את כל השדות באופן תקין ולחצו על create new event\nאם התחרטתם לחצו על back to calendar לשנות את התאריך.\nHome Page - בעמוד הראשי. בו תוכלו למצוא את כל האירועים שלכם (שיצרתם/ הוזמנתם).\nראשית מופיעים האירועים הקרובים (מהתאריך של היום והלאה) ולאחר מכן האירועים הישנים שלכם.\nבלחיצה על האירוע תוכלו לראות את כל פרטיו. לחיצה על מסך זה תאפשר לכם למחוק את האירוע.\nבמידה וסיימתם להתבונן תוכלו לחזור אחורה. אם יצרתם את האירוע - באפשרותכם לערוך אותו. לחצו על edit event וערכו את השדות. לאחר מכן שמרו את השינויים.\nAbout - תוכלו למצוא את הוראות השימוש לאפליקציה\nLog out - תוכלו להתנתק"
+      android:textAlignment="viewStart"
       android:textColor="@color/black"
-      android:textSize="25sp"
-      tools:layout_editor_absoluteX="99dp"
-      tools:layout_editor_absoluteY="209dp" />
+      android:textSize="19dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imglogin" />
 
   <ImageView
       android:id="@+id/imglogin"
-      android:layout_width="181dp"
-      android:layout_height="154dp"
-      app:srcCompat="@drawable/logoor"
-      tools:layout_editor_absoluteX="116dp"
-      tools:layout_editor_absoluteY="16dp" />
+      android:layout_width="199dp"
+      android:layout_height="98dp"
+      app:layout_constraintBottom_toTopOf="@+id/txtwelcomelogin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txtName"
+      app:srcCompat="@drawable/logoor" />
+
+  <TextView
+      android:id="@+id/txtName"
+      android:layout_width="284dp"
+      android:layout_height="41dp"
+      android:layout_marginStart="68dp"
+      android:layout_marginTop="92dp"
+      android:layout_marginEnd="68dp"
+      android:fontFamily="serif"
+      android:text="האפליקציה פותחה על ידי אור אזולאי"
+      android:textSize="19dp"
+      app:layout_constraintBottom_toTopOf="@+id/imglogin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
