@@ -12,6 +12,8 @@ import com.or.organizerp.model.User;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -268,6 +270,7 @@ public class DatabaseService {
     public void getUserEvents(@NotNull final String uid, final DatabaseCallback<List<GroupEvent>> callback) {
 
 
+
         readData("Users/" + uid +"/myEvents").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
@@ -278,7 +281,18 @@ public class DatabaseService {
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 GroupEvent groupEvent = dataSnapshot.getValue(GroupEvent.class);
                 Log.d(TAG, "Got groupEvent: " + groupEvent);
-                groupEvents.add(groupEvent);
+
+
+
+
+
+                    groupEvents.add(groupEvent);
+
+
+
+
+
+
             });
 
             callback.onCompleted(groupEvents);

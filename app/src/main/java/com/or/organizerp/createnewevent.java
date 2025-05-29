@@ -185,6 +185,7 @@ public class createnewevent extends AppCompatActivity implements AdapterView.OnI
         editor.apply();
 
         String eventId = databaseService.generateGroupEventId();
+
         GroupEvent groupEvent = new GroupEvent(eventId, eventName, eventType, eventDate, eventTime, eventDescription, 1, user, usersSelected, null, null);
 
         databaseService.createNewGroupEvent(groupEvent, new DatabaseService.DatabaseCallback<Void>() {

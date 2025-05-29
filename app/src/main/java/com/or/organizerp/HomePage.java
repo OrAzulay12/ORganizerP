@@ -23,6 +23,8 @@ import com.or.organizerp.services.DatabaseService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,6 +67,7 @@ public class HomePage extends AppCompatActivity {
 
         oldEventAdapter = new GroupEventAdapter<>(HomePage.this, 0, 0, oldEvents);
         lvOldEvents.setAdapter(oldEventAdapter);
+        LocalDate currentDate = LocalDate.now();
 
         databaseService.getUserEvents(id, new DatabaseService.DatabaseCallback<List<GroupEvent>>() {
             @Override
@@ -73,34 +76,29 @@ public class HomePage extends AppCompatActivity {
                 events.clear();
                 oldEvents.clear();
 
-                SimpleDateFormat fullFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-                SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-                long nowMillis = System.currentTimeMillis();
-                String todayStr = dateOnlyFormat.format(nowMillis);
+
+
 
                 for (GroupEvent event : object) {
-                    try {
+
                         // Parse full date+time
-                        long eventMillis = fullFormat.parse(event.getDate()).getTime();
 
-                        // Extract date only (no time) for event
-                        String eventDayStr = dateOnlyFormat.format(eventMillis);
+                        String stDate = event.getDate().substring(6) + "-" + event.getDate().substring(3, 5) + "-" + event.getDate().substring(0, 2);
 
-                        // Compare dates (only date, ignoring time)
-                        if (eventDayStr.compareTo(todayStr) < 0) {
-                            // Event date before today -> oldEvents
-                            oldEvents.add(event);
-                        } else {
-                            // Event date is today or after today -> upcoming/events list
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate date1 = LocalDate.parse(stDate, formatter);
+
+                        LocalDate date2 = LocalDate.parse(currentDate.toString(), formatter);
+
+
+                        if (date1.isAfter(date2) || date1.equals(date2)) {
+
                             events.add(event);
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        // On parse error, add to upcoming by default
-                        events.add(event);
+                        else oldEvents.add(event);
                     }
-                }
+
 
                 eventAdapter.notifyDataSetChanged();
                 oldEventAdapter.notifyDataSetChanged();
