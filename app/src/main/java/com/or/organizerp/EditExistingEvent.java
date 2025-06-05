@@ -144,16 +144,19 @@ public class EditExistingEvent extends AppCompatActivity implements AdapterView.
         if (selectedEvent != null) {
             etEventName.setText(selectedEvent.getName());
             etEventDescription.setText(selectedEvent.getDetails());
-
-            // Split full date into date and time fields
-            String fullDateTime = selectedEvent.getDate();
-            if (fullDateTime != null && fullDateTime.contains(" ")) {
-                String[] parts = fullDateTime.split(" ");
-                etEventDate.setText(parts[0]);
-                etEventTime.setText(parts.length > 1 ? parts[1] : "");
-            } else {
-                etEventDate.setText(fullDateTime);
-            }
+            etEventDate.setText(selectedEvent.getDate());
+            etEventTime.setText(selectedEvent.getTime());
+//
+//            // Split full date into date and time fields
+//            String fullDateTime = selectedEvent.getDate();
+//            if (fullDateTime != null && fullDateTime.contains(" ")) {
+//                Log.d("!!!!!!!!!!!!!!!!!!", "#"+fullDateTime+"#");
+//                String[] parts = fullDateTime.split(" ");
+//                etEventDate.setText(parts[0]);
+//                etEventTime.setText(parts.length > 1 ? parts[1] : "");
+//            } else {
+//
+//            }
         } else {
             Toast.makeText(EditExistingEvent.this, "Event details not available", Toast.LENGTH_SHORT).show();
         }
